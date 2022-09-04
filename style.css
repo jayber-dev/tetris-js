@@ -3,11 +3,11 @@
     top:100px;
     left: 50%;
     transform: translate(-50%);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;    
-    width: 320px ;
-    height: 640px;
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* flex-wrap: wrap;     */
+    /* width: 320px ;
+    height: 640px; */
     border: 1px solid black;
     background-image: linear-gradient(to left top, rgba(89, 89, 209, 0.438), rgba(218, 72, 72, 0.541));
 }
@@ -20,4 +20,12 @@
 
 .shape {
     background-color: cadetblue;
+}
+.shape-container{
+    position: absolute;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 90px;
+    height: 90px;
+    grid-row: auto;
 }
