@@ -1,0 +1,23 @@
+.game-container {
+    position: absolute;
+    top:100px;
+    left: 50%;
+    transform: translate(-50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;    
+    width: 320px ;
+    height: 640px;
+    border: 1px solid black;
+    background-image: linear-gradient(to left top, rgba(89, 89, 209, 0.438), rgba(218, 72, 72, 0.541));
+}
+
+.squere {
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+}
+
+.shape {
+    background-color: cadetblue;
+}
