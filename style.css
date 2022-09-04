@@ -3,9 +3,9 @@
     top:100px;
     left: 50%;
     transform: translate(-50%);
-    /* display: flex; */
-    /* flex-direction: row; */
-    /* flex-wrap: wrap;     */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;    
     /* width: 320px ;
     height: 640px; */
     border: 1px solid black;
