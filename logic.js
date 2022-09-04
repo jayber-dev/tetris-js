@@ -1,60 +1,79 @@
 import { iShape, lShape, tShape ,sShape} from './shapes.js'
+
 const gameContainer = document.querySelector('.game-container')
 
 class GameLogic {
-    constructor(shapeElem){
-        this.boardRow = 0;
-        this.boardCol = 0
+    constructor(shapeElem, boardRow,boardCol){
+        this.boardRow = boardRow;
+        this.boardCol = boardCol;
         this.shapeElem = shapeElem
     }
 
-    shapeGenerator (){
+    shapeGenerator (){        
+        let test = ''
+        const shpesArray = [iShape,lShape,tShape,sShape]
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
-        // shape builder
-        let test = ''
-        const shpesArray = [iShape,lShape,tShape,sShape]
+        // shape builder        
         shpesArray[0].forEach((el) => { 
             el.forEach(i => {
                 if(i === 1) {
                     test = document.createElement('div')
                     test.classList = 'squere shape occupied'
-                    test.Occupied = 1;
+                    test.pied = 1;
                     shapeElem.appendChild(test)
                 } else {
                     const test = document.createElement('div')
-                    test.Occupied = 0;
+                    test.pied = 0;
                     test.classList = 'squere'
                     shapeElem.appendChild(test)
                 }
-        })   
+        })
+           
     });
-    return test
+        return shapeElem
     }
 
-    downMove () {
+    checkShapeButtom () {
+        if(this.boardRow < gameContainer.clientHeight -80) {
+            return true
+        }
+        return false
+    }
+    
+
+    checkCollision () {
+        const inGameElem = document.querySelectorAll('.occupied')
+        const activeElem = document.querySelectorAll('.shape-container')
+        
+        
+    }
+
+    downMove (shapeElement) {
+        
         if(this.boardRow < gameContainer.clientHeight -80){
-            console.log();
-            this.boardRow += 32;
-            this.shapeElem.style.top = `${this.boardRow}px`;
+            this.boardRow += 30;
+            shapeElement.style.top = `${this.boardRow}px`;
         } 
         
     }
 
-    rightMove () {       
+    rightMove (shapeElement) {       
         if(this.boardCol < 210){ 
-        this.boardCol += 32
-        this.shapeElem.style.left = this.boardCol +'px'        
+            this.boardCol += 30
+            shapeElement.style.left = this.boardCol +'px'        
         } 
     }
 
-    leftMove() {
+    leftMove(shapeElement) {
         if(this.boardCol >0){
-            this.boardCol -= 32
-            this.shapeElem.style.left = this.boardCol +'px'    
+            this.boardCol -= 30
+            shapeElement.style.left = this.boardCol +'px'    
         }
     }
+
+    
 }
 
 export default GameLogic
