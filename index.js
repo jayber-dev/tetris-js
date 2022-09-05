@@ -45,7 +45,7 @@ let shapeElement = logic.shapeGenerator();
 // game loop -----------------------------
 const shapeHandler = setInterval(()=> { 
     // debugger
-    let isCollide = logic.checkCollision(shapeElement)
+    let isCollide = logic.checkCollision()
     let isbuttomcollide = logic.checkShapeButtom()
     if(isbuttomcollide && isCollide ){
         logic.downMove(shapeElement)
@@ -54,7 +54,7 @@ const shapeHandler = setInterval(()=> {
         shapeElement = logic.shapeGenerator()
     }
     // console.log(shapeElement.offsetTop)
-}, 1000)
+}, 300)
 
 // --------------------------------------
 // -------------------------------------- EVENT LISTENERS -------------------------------------

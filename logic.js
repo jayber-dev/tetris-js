@@ -10,8 +10,8 @@ class GameLogic {
     }
 
     shapeGenerator (){        
-        let test = ''
-        const shpesArray = [iShape,lShape,tShape,sShape]
+        let squereElem = ''
+        const shpesArray = [iShape,lShape,tShape,sShape] // randomized the shape generationg
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
@@ -19,15 +19,15 @@ class GameLogic {
         shpesArray[1].forEach((el) => { 
             el.forEach(i => {
                 if(i === 1) {
-                    test = document.createElement('div')
-                    test.classList = 'squere shape occupied'
-                    test.pied = 1;
-                    shapeElem.appendChild(test)
+                    squereElem = document.createElement('div')
+                    squereElem.classList = 'squere shape occupied'
+                    squereElem.fixedOnPosition = 0;
+                    shapeElem.appendChild(squereElem)
                 } else {
-                    const test = document.createElement('div')
-                    test.pied = 0;
-                    test.classList = 'squere'
-                    shapeElem.appendChild(test)
+                    const squereElem = document.createElement('div')
+                    squereElem.fixedOnPosition = 0;
+                    squereElem.classList = 'squere'
+                    shapeElem.appendChild(squereElem)
                 }
         })
            
@@ -35,31 +35,45 @@ class GameLogic {
         return shapeElem
     }
 
-    checkShapeButtom () {
+    checkShapeButtom (shapeElement) {
+        const staticElem = document.querySelectorAll('.occupied')
+        const shapeContainer = document.querySelectorAll('.shape-container')
         if(this.boardRow < gameContainer.clientHeight -80) {
             return true
         }
+        (shapeContainer[shapeContainer.length-1].childNodes.forEach(element => {
+            element.fixedOnPosition = 1
+        }))
         return false
     }
     
 
-    checkCollision (shapeElement) {
-        const inGameElem = document.querySelectorAll('.occupied')
+    checkCollision () {
+        const staticElem = document.querySelectorAll('.occupied')
         const shapeContainer = document.querySelectorAll('.shape-container')
-        console.log(inGameElem[0].getBoundingClientRect().top);
-        try {
-            console.log(inGameElem[7].getBoundingClientRect().top);
-        } catch {}
-        debugger
-        for(let i=0;i<inGameElem.length;i++){
-            for(let j = 1;j <inGameElem.length; j++) {
-                if(inGameElem[i].parentElement === inGameElem[j].parentElement) {
-                    continue
-                }else if(i === j) {
-                    continue
-                } else if(inGameElem[i].getBoundingClientRect().top === inGameElem[j].getBoundingClientRect().bottom ) {
-                    console.log(`${inGameElem[i].getBoundingClientRect().top} and ${inGameElem[j].getBoundingClientRect().bottom}`);
+        const activeChild = shapeContainer[shapeContainer.length-1].childNodes
+        const occupiedArray = []
+        
+        activeChild.forEach(element => {
+            if(element.classList[2] === "occupied")
+                occupiedArray.push(element)
+        })
+
+        console.log(occupiedArray);
+        // comparing moving squeres to all other squers on board
+        for(let i=0;i< occupiedArray.length -1;i++){
+            for(let j = 0;j < (staticElem.length - 1) - (occupiedArray.length); j++) {
+                // if(i === j) {
+                //     continue
+                console.log(occupiedArray[i])
+                console.log(occupiedArray[i].getBoundingClientRect().bottom);
+                if(occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && occupiedArray[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {
+                    
+                    console.log(`${staticElem[i].attributes} is ${staticElem[i].getBoundingClientRect().top} and${staticElem[j]} ${staticElem[j].getBoundingClientRect().bottom}`);
                     console.log('wow');
+                    staticElem.forEach(element => {
+                        element.fixedOnPosition = 1
+                    })
                     return false
                 }
                 
@@ -67,8 +81,11 @@ class GameLogic {
             }
         }
         return true
-        // inGameElem[i].getBoundingClientRect().left === inGameElem[j].getBoundingClientRect().left
+        // staticElem[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left
     }
+
+
+    // -------------------------- movement handling -------------------------------
 
     downMove (shapeElement) {
         
