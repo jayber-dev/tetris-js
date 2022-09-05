@@ -50,20 +50,20 @@ class GameLogic {
         try {
             console.log(inGameElem[7].getBoundingClientRect().top);
         } catch {}
-        
+        debugger
         for(let i=0;i<inGameElem.length;i++){
             for(let j = 1;j <inGameElem.length; j++) {
                 if(inGameElem[i].parentElement === inGameElem[j].parentElement) {
                     continue
-                }
-                if(i == j) {
+                }else if(i === j) {
                     continue
-                }
-                if(inGameElem[i].getBoundingClientRect().top === inGameElem[j].getBoundingClientRect().bottom ) {
+                } else if(inGameElem[i].getBoundingClientRect().top === inGameElem[j].getBoundingClientRect().bottom ) {
                     console.log(`${inGameElem[i].getBoundingClientRect().top} and ${inGameElem[j].getBoundingClientRect().bottom}`);
                     console.log('wow');
                     return false
                 }
+                
+                
             }
         }
         return true
