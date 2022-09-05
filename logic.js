@@ -16,7 +16,7 @@ class GameLogic {
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
         // shape builder        
-        shpesArray[0].forEach((el) => { 
+        shpesArray[1].forEach((el) => { 
             el.forEach(i => {
                 if(i === 1) {
                     test = document.createElement('div')
@@ -43,11 +43,31 @@ class GameLogic {
     }
     
 
-    checkCollision () {
+    checkCollision (shapeElement) {
         const inGameElem = document.querySelectorAll('.occupied')
-        const activeElem = document.querySelectorAll('.shape-container')
+        const shapeContainer = document.querySelectorAll('.shape-container')
+        console.log(inGameElem[0].getBoundingClientRect().top);
+        try {
+            console.log(inGameElem[7].getBoundingClientRect().top);
+        } catch {}
         
-        
+        for(let i=0;i<inGameElem.length;i++){
+            for(let j = 1;j <inGameElem.length; j++) {
+                if(inGameElem[i].parentElement === inGameElem[j].parentElement) {
+                    continue
+                }
+                if(i == j) {
+                    continue
+                }
+                if(inGameElem[i].getBoundingClientRect().top === inGameElem[j].getBoundingClientRect().bottom ) {
+                    console.log(`${inGameElem[i].getBoundingClientRect().top} and ${inGameElem[j].getBoundingClientRect().bottom}`);
+                    console.log('wow');
+                    return false
+                }
+            }
+        }
+        return true
+        // inGameElem[i].getBoundingClientRect().left === inGameElem[j].getBoundingClientRect().left
     }
 
     downMove (shapeElement) {

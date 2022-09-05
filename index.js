@@ -44,15 +44,16 @@ let shapeElement = logic.shapeGenerator();
 
 // game loop -----------------------------
 const shapeHandler = setInterval(()=> { 
-    debugger
-    logic.checkCollision()
-    if(logic.checkShapeButtom()){
+    // debugger
+    let isCollide = logic.checkCollision(shapeElement)
+    let isbuttomcollide = logic.checkShapeButtom()
+    if(isbuttomcollide && isCollide ){
         logic.downMove(shapeElement)
     } else {
         logic = new Logic(shapeElem,0 ,0)
         shapeElement = logic.shapeGenerator()
     }
-       
+    // console.log(shapeElement.offsetTop)
 }, 1000)
 
 // --------------------------------------
@@ -71,10 +72,12 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
-window.addEventListener('keyup', (e) => {
+window.addEventListener('keydown', (e) => {
     console.log(e);
     if(e.code === 'ArrowDown'){
         logic.downMove(shapeElement)
     }
 })
+
+
 
