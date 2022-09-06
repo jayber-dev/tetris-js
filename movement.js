@@ -11,7 +11,7 @@ class movement extends GameLogic {
     }
     downMove (shapeElement) {
         
-        if(this.checkCollisionTop()){   
+        if(this.checkCollisionBottom()){   
             this.boardRow += 30;
             shapeElement.style.top = `${this.boardRow}px`;
         } 
@@ -29,7 +29,7 @@ class movement extends GameLogic {
     
     leftMove(shapeElement) {
            
-        if(this.leftBorderCollisionCheck()){ 
+        if(this.leftBorderCollisionCheck() && this.leftCheckShapeSideCollision()){ 
                 this.boardCol -= 30
                 shapeElement.style.left = this.boardCol +'px'        
         } 
@@ -37,7 +37,7 @@ class movement extends GameLogic {
 
     
     pieceRotation (shapeElement) {
-        if(this.checkCollisionTop() && this.rightBorderCollisionCheck() && this.leftBorderCollisionCheck())
+        if(this.checkCollisionBottom() && this.rightBorderCollisionCheck() && this.leftBorderCollisionCheck())
         this.rotationDegree += 90
         shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
     }

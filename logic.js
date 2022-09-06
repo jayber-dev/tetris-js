@@ -40,7 +40,7 @@ class GameLogic {
 
     // ------------------------------- Collision detection ----------------------------------------
 
-    checkCollisionTop () { // Check squere collision on board squere by squere
+    checkCollisionBottom () { // Check squere collision on board squere by squere
         const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
@@ -118,6 +118,30 @@ class GameLogic {
             }    
         }
         this.occupiedArray = []
+        return isNotOutOfBound
+    }
+
+    leftCheckShapeSideCollision () {
+        const staticElem = document.querySelectorAll('.occupied')
+        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
+        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
+        let isNotOutOfBound = true;  
+
+        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
+            if(element.classList[2] === "occupied")
+                this.occupiedArray.push(element)
+        })
+
+        for(let i=0; i< this.occupiedArray.length; i++){
+            for(let j = 0; j < (staticElem.length) - (this.occupiedArray.length); j++) {    
+                if(this.occupiedArray[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().right &&
+                   this.occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().bottom) {        
+                    return isNotOutOfBound = false
+                } else {      
+                    isNotOutOfBound = true
+                }           
+            }
+        }
         return isNotOutOfBound
     }
 

@@ -43,7 +43,7 @@ let shapeElement = logic.shapeGenerator();
 // game loop -----------------------------
 const shapeHandler = setInterval(()=> { 
     // debugger
-    let isCollide = logic.checkCollisionTop()
+    let isCollide = logic.checkCollisionBottom()
     if(isCollide){
         move.downMove(shapeElement, 0, 120)
     } else {
