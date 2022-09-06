@@ -20,7 +20,7 @@ class movement extends GameLogic {
 
     rightMove (shapeElement) {  
          
-        if(this.rightBorderCollisionCheck()) {
+        if(this.rightBorderCollisionCheck()&& this.rightCheckShapeSideCollision()) {
             this.boardCol += 30
             shapeElement.style.left = this.boardCol +'px' 
         }
