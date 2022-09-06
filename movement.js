@@ -1,5 +1,4 @@
 import GameLogic from "./logic.js";
-const gameContainer = document.querySelector('.game-container')
 
 class movement extends GameLogic {
     constructor(shapeElem, boardRow,boardCol){

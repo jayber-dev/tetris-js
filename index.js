@@ -2,28 +2,26 @@ import Logic from './logic.js'
 import movement from './movement.js'
 
 
-const gameContainer = document.querySelector('.game-container')
+// ----------------------------------------- Constants initialization ----------------------
 const COL = 10
 const ROW = 20
 const SQUERE_SIZE = 30
 
-// for(let i= 0; i< COL * ROW; i++){
-//     const gameBoard = document.createElement('div')
-//     gameBoard.classList.add('squere')
-//     gameContainer.appendChild(gameBoard)
-// }
+const shapeElem = document.createElement('div')
+const gameContainer = document.querySelector('.game-container')
+
+for(let i= 0; i< COL * ROW; i++){
+    const gameBoard = document.createElement('div')
+    gameBoard.classList.add('squere')
+    gameContainer.appendChild(gameBoard)
+}
 
 gameContainer.style.width = COL * SQUERE_SIZE+ 'px'
 gameContainer.style.height = ROW * SQUERE_SIZE+ 'px'
 
 const squereElem = document.querySelectorAll('.squere')
 
-
-
 // shapes wrapper
-const shapeElem = document.createElement('div')
-// shapeElem.classList = 'shape-container'
-// gameContainer.appendChild(shapeElem)
 
 // 2D ARRAY BUILDER
 // let boardArray =[];
@@ -37,12 +35,11 @@ const shapeElem = document.createElement('div')
 
 // console.table(boardArray);
 
-
 // --------------------------------------- game progress --------------------------------------
 console.log(gameContainer.getBoundingClientRect());
 let logic = new Logic(shapeElem,0 ,120);
-let shapeElement = logic.shapeGenerator();
 let move = new movement(shapeElem,0 ,120)
+let shapeElement = logic.shapeGenerator();
 // game loop -----------------------------
 const shapeHandler = setInterval(()=> { 
     // debugger
@@ -54,10 +51,9 @@ const shapeHandler = setInterval(()=> {
         move = new movement(shapeElem,0 ,120)
         shapeElement = logic.shapeGenerator()
     }
-    // console.log(shapeElement.offsetTop)
 }, 1000)
 
-// --------------------------------------
+
 // -------------------------------------- EVENT LISTENERS -------------------------------------
 window.addEventListener('keydown', (e) => {
     console.log(e);
