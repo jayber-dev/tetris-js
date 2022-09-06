@@ -12,28 +12,29 @@ const gameContainer = document.querySelector('.game-container')
 
 for(let i= 0; i< COL * ROW; i++){
     const gameBoard = document.createElement('div')
-    gameBoard.classList.add('squere')
+    gameBoard.classList.add('empty-squere')
     gameContainer.appendChild(gameBoard)
 }
 
 gameContainer.style.width = COL * SQUERE_SIZE+ 'px'
 gameContainer.style.height = ROW * SQUERE_SIZE+ 'px'
 
-const squereElem = document.querySelectorAll('.squere')
+const squereElem = document.querySelectorAll('.empty-squere')
 
 // shapes wrapper
 
 // 2D ARRAY BUILDER
-// let boardArray =[];
-// for(let i = 0; i < 20;i++){
-//     let tempArr = [];
-//     for(let j =0; j<10; j++){
-//         tempArr.push(0)
-//     }
-//     boardArray.push(tempArr)
-// }
+let boardArray =[];
 
-// console.table(boardArray);
+for(let i = 0; i < squereElem.length; i += 10) {
+    const tempArr = []
+    for(let j = 0;j < COL; j++){
+        tempArr.push(squereElem[j+i])
+    }
+    boardArray.push(tempArr)
+}
+
+console.table(boardArray);
 
 // --------------------------------------- game progress --------------------------------------
 console.log(gameContainer.getBoundingClientRect());
