@@ -22,7 +22,7 @@ class GameLogic {
             el.forEach(i => {
                 if(i === 1) {
                     squereElem = document.createElement('div')
-                    squereElem.classList = 'squere shape occupied'
+                    squereElem.classList = 'squere shape occupied'    
                     squereElem.fixedOnPosition = 0;
                     shapeElem.appendChild(squereElem)
                 } else {
@@ -34,12 +34,13 @@ class GameLogic {
         })
            
     });
+        shapeElem.style.left = "120px"
         return shapeElem
     }
 
     // ------------------------------- Collision detection ----------------------------------------
 
-    checkCollision () { // Check squere collision on board squere by squere
+    checkCollisionTop () { // Check squere collision on board squere by squere
         const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
@@ -51,7 +52,7 @@ class GameLogic {
         
         // Comparing moving squeres to all other squers on board
         for(let i=0; i< this.occupiedArray.length; i++){
-            if(this.occupiedArray[i].getBoundingClientRect().bottom === 700){
+            if(this.occupiedArray[i].getBoundingClientRect().bottom === gameContainer.getBoundingClientRect().bottom){
                 staticElem.forEach(element => {
                     element.fixedOnPosition = 1
                 })
@@ -75,7 +76,7 @@ class GameLogic {
         return true
     }
 
-    rightBoundCollisionCheck() {
+    rightBorderCollisionCheck() {
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
         let isNotOutOfBound = true;
@@ -85,7 +86,7 @@ class GameLogic {
         })
 
         for(let i = 0; i < this.occupiedArray.length; i++) {
-            if(this.occupiedArray[i].getBoundingClientRect().right < 351){ 
+            if(this.occupiedArray[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
                 isNotOutOfBound = true;
             } else {
                 isNotOutOfBound = false;
@@ -97,17 +98,18 @@ class GameLogic {
         return isNotOutOfBound
     }
 
-    leftBoundCollisionCheck() {
+    leftBorderCollisionCheck() {
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
-        let isNotOutOfBound = true;     
-        activeChild.forEach(element => {
+        let isNotOutOfBound = true;  
+
+        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
             if(element.classList[2] === "occupied")
                 this.occupiedArray.push(element)
         })
 
         for(let i = 0; i < this.occupiedArray.length; i++) {
-            if(this.occupiedArray[i].getBoundingClientRect().left > 51){ 
+            if(this.occupiedArray[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
                 isNotOutOfBound = true;
             } else {
                 isNotOutOfBound = false;
@@ -117,40 +119,6 @@ class GameLogic {
         }
         this.occupiedArray = []
         return isNotOutOfBound
-    }
-    // -------------------------- movement handling -------------------------------
-
-    downMove (shapeElement) {
-        
-        if(this.checkCollision()){   
-            this.boardRow += 30;
-            shapeElement.style.top = `${this.boardRow}px`;
-        } 
-        
-    }
-
-    rightMove (shapeElement) {  
-         
-        if(this.rightBoundCollisionCheck()) {
-            this.boardCol += 30
-            shapeElement.style.left = this.boardCol +'px' 
-        }
-                       
-    }
-    
-    leftMove(shapeElement) {
-           
-        if(this.leftBoundCollisionCheck()){ 
-                this.boardCol -= 30
-                shapeElement.style.left = this.boardCol +'px'        
-        } 
-    }
-
-    
-    pieceRotation (shapeElement) {
-        if(this.checkCollision())
-        this.rotationDegree += 90
-        shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
     }
 
 }
