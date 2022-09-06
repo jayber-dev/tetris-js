@@ -1,4 +1,3 @@
-import {iShape,lShape, sShape, tShape} from './shapes.js'
 import Logic from './logic.js'
 
 const gameContainer = document.querySelector('.game-container')
@@ -46,26 +45,25 @@ let shapeElement = logic.shapeGenerator();
 const shapeHandler = setInterval(()=> { 
     // debugger
     let isCollide = logic.checkCollision()
-    let isbuttomcollide = logic.checkShapeButtom()
-    if(isbuttomcollide && isCollide ){
+    if(isCollide){
         logic.downMove(shapeElement)
     } else {
         logic = new Logic(shapeElem,0 ,0)
         shapeElement = logic.shapeGenerator()
     }
     // console.log(shapeElement.offsetTop)
-}, 300)
+}, 1000)
 
 // --------------------------------------
 // -------------------------------------- EVENT LISTENERS -------------------------------------
-window.addEventListener('keyup', (e) => {
+window.addEventListener('keydown', (e) => {
     console.log(e);
     if(e.code === 'ArrowRight'){
         logic.rightMove(shapeElement)
     }
 })
 
-window.addEventListener('keyup', (e) => {
+window.addEventListener('keydown', (e) => {
     console.log(e);
     if(e.code === 'ArrowLeft'){
         logic.leftMove(shapeElement)
@@ -76,6 +74,13 @@ window.addEventListener('keydown', (e) => {
     console.log(e);
     if(e.code === 'ArrowDown'){
         logic.downMove(shapeElement)
+    }
+})
+
+window.addEventListener('keydown', (e) => {
+    console.log(e);
+    if(e.code === 'Space'){
+        logic.pieceRotation(shapeElement)
     }
 })
 

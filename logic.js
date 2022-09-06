@@ -7,6 +7,8 @@ class GameLogic {
         this.boardRow = boardRow;
         this.boardCol = boardCol;
         this.shapeElem = shapeElem
+        this.rotationDegree = 0;
+        this.occupiedArray = []
     }
 
     shapeGenerator (){        
@@ -35,82 +37,122 @@ class GameLogic {
         return shapeElem
     }
 
-    checkShapeButtom (shapeElement) {
-        const staticElem = document.querySelectorAll('.occupied')
-        const shapeContainer = document.querySelectorAll('.shape-container')
-        if(this.boardRow < gameContainer.clientHeight -80) {
-            return true
-        }
-        (shapeContainer[shapeContainer.length-1].childNodes.forEach(element => {
-            element.fixedOnPosition = 1
-        }))
-        return false
-    }
-    
+    // ------------------------------- Collision detection ----------------------------------------
 
-    checkCollision () {
-        const staticElem = document.querySelectorAll('.occupied')
-        const shapeContainer = document.querySelectorAll('.shape-container')
-        const activeChild = shapeContainer[shapeContainer.length-1].childNodes
-        const occupiedArray = []
-        
+    checkCollision () { // Check squere collision on board squere by squere
+        const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board
+        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
+        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
+             
         activeChild.forEach(element => {
             if(element.classList[2] === "occupied")
-                occupiedArray.push(element)
+                this.occupiedArray.push(element)
         })
+        
+        // Comparing moving squeres to all other squers on board
+        for(let i=0; i< this.occupiedArray.length; i++){
+            if(this.occupiedArray[i].getBoundingClientRect().bottom === 700){
+                staticElem.forEach(element => {
+                    element.fixedOnPosition = 1
+                })
+                this.occupiedArray = []
+                return false
+            };
 
-        console.log(occupiedArray);
-        // comparing moving squeres to all other squers on board
-        for(let i=0;i< occupiedArray.length -1;i++){
-            for(let j = 0;j < (staticElem.length - 1) - (occupiedArray.length); j++) {
-                // if(i === j) {
-                //     continue
-                console.log(occupiedArray[i])
-                console.log(occupiedArray[i].getBoundingClientRect().bottom);
-                if(occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && occupiedArray[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {
-                    
-                    console.log(`${staticElem[i].attributes} is ${staticElem[i].getBoundingClientRect().top} and${staticElem[j]} ${staticElem[j].getBoundingClientRect().bottom}`);
-                    console.log('wow');
+            for(let j = 0; j < (staticElem.length) - (this.occupiedArray.length); j++) {
+                
+                if(this.occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && 
+                    this.occupiedArray[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {  
                     staticElem.forEach(element => {
                         element.fixedOnPosition = 1
                     })
+                    this.occupiedArray = []
                     return false
-                }
-                
-                
+                }             
             }
         }
+        this.occupiedArray = []
         return true
-        // staticElem[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left
     }
 
+    rightBoundCollisionCheck() {
+        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
+        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
+        let isNotOutOfBound = true;
+        activeChild.forEach(element => {
+            if(element.classList[2] === "occupied")
+                this.occupiedArray.push(element)
+        })
 
+        for(let i = 0; i < this.occupiedArray.length; i++) {
+            if(this.occupiedArray[i].getBoundingClientRect().right < 351){ 
+                isNotOutOfBound = true;
+            } else {
+                isNotOutOfBound = false;
+                this.occupiedArray = []
+                break
+            }    
+        }
+        this.occupiedArray = []
+        return isNotOutOfBound
+    }
+
+    leftBoundCollisionCheck() {
+        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
+        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
+        let isNotOutOfBound = true;     
+        activeChild.forEach(element => {
+            if(element.classList[2] === "occupied")
+                this.occupiedArray.push(element)
+        })
+
+        for(let i = 0; i < this.occupiedArray.length; i++) {
+            if(this.occupiedArray[i].getBoundingClientRect().left > 51){ 
+                isNotOutOfBound = true;
+            } else {
+                isNotOutOfBound = false;
+                this.occupiedArray = []
+                break
+            }    
+        }
+        this.occupiedArray = []
+        return isNotOutOfBound
+    }
     // -------------------------- movement handling -------------------------------
 
     downMove (shapeElement) {
         
-        if(this.boardRow < gameContainer.clientHeight -80){
+        if(this.checkCollision()){   
             this.boardRow += 30;
             shapeElement.style.top = `${this.boardRow}px`;
         } 
         
     }
 
-    rightMove (shapeElement) {       
-        if(this.boardCol < 210){ 
+    rightMove (shapeElement) {  
+         
+        if(this.rightBoundCollisionCheck()) {
             this.boardCol += 30
-            shapeElement.style.left = this.boardCol +'px'        
+            shapeElement.style.left = this.boardCol +'px' 
+        }
+                       
+    }
+    
+    leftMove(shapeElement) {
+           
+        if(this.leftBoundCollisionCheck()){ 
+                this.boardCol -= 30
+                shapeElement.style.left = this.boardCol +'px'        
         } 
     }
 
-    leftMove(shapeElement) {
-        if(this.boardCol >0){
-            this.boardCol -= 30
-            shapeElement.style.left = this.boardCol +'px'    
-        }
+    
+    pieceRotation (shapeElement) {
+        if(this.checkCollision())
+        this.rotationDegree += 90
+        shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
     }
 
-    
 }
 
 export default GameLogic
