@@ -75,30 +75,9 @@ class GameLogic {
         this.occupiedArray = []
         return true
     }
+    // ----------------------------------- Side border collison check ------------------------------------------------
 
-    rightBorderCollisionCheck() {
-        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
-        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
-        let isNotOutOfBound = true;
-        activeChild.forEach(element => {
-            if(element.classList[2] === "occupied")
-                this.occupiedArray.push(element)
-        })
-
-        for(let i = 0; i < this.occupiedArray.length; i++) {
-            if(this.occupiedArray[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
-                isNotOutOfBound = true;
-            } else {
-                isNotOutOfBound = false;
-                this.occupiedArray = []
-                break
-            }    
-        }
-        this.occupiedArray = []
-        return isNotOutOfBound
-    }
-
-    leftBorderCollisionCheck() {
+    checkCollisionBorders (shapeElement,e) {
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
         let isNotOutOfBound = true;  
@@ -107,20 +86,47 @@ class GameLogic {
             if(element.classList[2] === "occupied")
                 this.occupiedArray.push(element)
         })
-
-        for(let i = 0; i < this.occupiedArray.length; i++) {
-            if(this.occupiedArray[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
-                isNotOutOfBound = true;
-            } else {
-                isNotOutOfBound = false;
-                this.occupiedArray = []
-                break
-            }    
+        // console.log(e.code)
+        for(let i = 0; i < this.occupiedArray.length; i++){
+            if(e.code === 'ArrowLeft') {
+                if(this.occupiedArray[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
+                    isNotOutOfBound = true;
+                } else {
+                    isNotOutOfBound = false;
+                    this.occupiedArray = []
+                    break
+                }
+            } else if(e.code === 'ArrowRight'){
+                if(this.occupiedArray[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
+                    isNotOutOfBound = true;
+                } else {
+                    isNotOutOfBound = false;
+                    this.occupiedArray = []
+                    break
+                }       
+            } else if(e.code === 'Space' && this.occupiedArray[i].getBoundingClientRect().left === gameContainer.getBoundingClientRect().left) {
+                if(this.occupiedArray[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
+                    isNotOutOfBound = true;
+                } else {
+                    isNotOutOfBound = false;
+                    this.occupiedArray = []
+                    break
+                }
+            } else if(e.code === 'Space' && this.occupiedArray[i].getBoundingClientRect().right === gameContainer.getBoundingClientRect().right){
+                if(this.occupiedArray[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
+                    isNotOutOfBound = true;
+                } else {
+                    isNotOutOfBound = false;
+                    this.occupiedArray = []
+                    break
+                }       
+            }  
         }
         this.occupiedArray = []
         return isNotOutOfBound
     }
 
+    // ------------------------------------ Shape collision with sides of other shapes -----------------------------
     leftCheckShapeSideCollision () {
         const staticElem = document.querySelectorAll('.occupied')
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
@@ -164,6 +170,34 @@ class GameLogic {
                 } else {      
                     isNotOutOfBound = true
                 }           
+            }
+        }
+        return isNotOutOfBound
+    }
+
+    isToRotateLeftBorder(shapeElement,boardCol) {
+        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
+        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
+        let isNotOutOfBound = true;  
+        console.log(shapeContainer[shapeContainer.length-1]);
+        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
+            if(element.classList[2] === "occupied")
+                this.occupiedArray.push(element)
+        })
+
+        for(let i = 0; i < this.occupiedArray.length; i++){
+            if(this.occupiedArray[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
+                isNotOutOfBound = true;                        
+            } else {
+                isNotOutOfBound = true;
+                    if(shapeElement.style.transform === 'rotate(90deg)') {
+                        shapeElement.style.left = (boardCol + 30) + "px"
+                    } else {
+                        shapeElement.style.left = (boardCol + 30) + "px"
+                    }
+                
+                this.occupiedArray = []
+                break
             }
         }
         return isNotOutOfBound

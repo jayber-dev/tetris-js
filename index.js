@@ -56,21 +56,21 @@ const shapeHandler = setInterval(()=> {
 
 // -------------------------------------- EVENT LISTENERS -------------------------------------
 window.addEventListener('keydown', (e) => {
-    console.log(e);
+    
     if(e.code === 'ArrowRight'){
-        move.rightMove(shapeElement)
+        move.rightMove(shapeElement,e)
     }
 })
 
 window.addEventListener('keydown', (e) => {
-    console.log(e);
+    
     if(e.code === 'ArrowLeft'){
-        move.leftMove(shapeElement)
+        move.leftMove(shapeElement,e)
     }
 })
 
 window.addEventListener('keydown', (e) => {
-    console.log(e);
+    
     if(e.code === 'ArrowDown'){
         move.downMove(shapeElement)
     }
@@ -79,7 +79,7 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keydown', (e) => {
     console.log(e);
     if(e.code === 'Space'){
-        move.pieceRotation(shapeElement)
+        move.pieceRotation(shapeElement,e)
     }
 })
 
