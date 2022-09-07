@@ -18,28 +18,30 @@ class movement extends GameLogic {
         
     }
 
-    rightMove (shapeElement) {  
+    rightMove (shapeElement,e) {  
          
-        if(this.rightBorderCollisionCheck()&& this.rightCheckShapeSideCollision()) {
+        if(this.checkCollisionBorders(shapeElement,e)&& this.rightCheckShapeSideCollision()) {
             this.boardCol += 30
             shapeElement.style.left = this.boardCol +'px' 
         }
                        
     }
     
-    leftMove(shapeElement) {
+    leftMove(shapeElement,e) {
            
-        if(this.leftBorderCollisionCheck() && this.leftCheckShapeSideCollision()){ 
+        if(this.checkCollisionBorders(shapeElement,e) && this.leftCheckShapeSideCollision()){ 
                 this.boardCol -= 30
                 shapeElement.style.left = this.boardCol +'px'        
+                     
         } 
     }
 
     
-    pieceRotation (shapeElement) {
-        if(this.checkCollisionBottom() && this.rightBorderCollisionCheck() && this.leftBorderCollisionCheck())
-        this.rotationDegree += 90
+    pieceRotation (shapeElement,e) {
+        if(this.checkCollisionBottom() && this.checkCollisionBorders(shapeElement,e) )
+        this.rotationDegree += 90    
         shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
+        
     }
 
 }
