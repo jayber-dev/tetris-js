@@ -38,10 +38,23 @@ class movement extends GameLogic {
 
     
     pieceRotation (shapeElement,e) {
-        if(this.checkCollisionBottom() && this.checkCollisionBorders(shapeElement,e) )
-        this.rotationDegree += 90    
-        shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
-        
+        if(this.checkCollisionBottom() && this.checkCollisionBorders(shapeElement,e) ){
+            const direction = this.rotationDirection()
+            if(direction === 'right'){
+                this.rightMove(shapeElement,e)
+                this.rotationDegree += 90    
+                shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
+            } else if (direction === 'left'){
+                this.leftMove(shapeElement,e)
+                this.rotationDegree += 90    
+                shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
+            } else if(direction === 'no change') {
+                this.rotationDegree += 90    
+                shapeElement.style.transform = `rotate(${this.rotationDegree}deg)`
+            }
+            
+            
+        }
     }
 
 }
