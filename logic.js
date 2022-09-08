@@ -13,12 +13,12 @@ class GameLogic {
 
     shapeGenerator (){        
         let squereElem = ''
-        const shpesArray = [iShape,lShape,tShape,sShape] // randomized the shape generationg
+        const shpesArray = [lShape,tShape,sShape,iShape] // randomized the shape generationg
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
         // shape builder        
-        shpesArray[1].forEach((el) => { 
+        shpesArray[3].forEach((el) => { 
             el.forEach(i => {
                 if(i === 1) {
                     squereElem = document.createElement('div')
@@ -163,21 +163,27 @@ class GameLogic {
         const staticElem = document.querySelectorAll('.occupied')
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
-         
+        let rotateDirection = {
+            direction: "",
+            invokeCounter: [],
+        } 
 
         activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
             if(element.classList[2] === "occupied")
                 this.occupiedArray.push(element)
         })
         for(let i = 0; i < this.occupiedArray.length; i++) {
-            if(this.occupiedArray[i].getBoundingClientRect().right === gameContainer.getBoundingClientRect().right){
-                return 'right'
-            }else if(this.occupiedArray[i].getBoundingClientRect().left === gameContainer.getBoundingClientRect().left){
-                return 'left'
-            } else {
-                return 'no change'
-            }
+            if(this.occupiedArray[i].getBoundingClientRect().right > gameContainer.getBoundingClientRect().right){
+                rotateDirection.direction = 'left'
+                rotateDirection.invokeCounter.push('call') 
+                console.log('wow');
+            }else if(this.occupiedArray[i].getBoundingClientRect().left < gameContainer.getBoundingClientRect().left){
+                rotateDirection.direction  = 'right'
+                rotateDirection.invokeCounter.push('call') 
+                console.log('nana');
+            } 
         }
+        return rotateDirection
     }
 
 }

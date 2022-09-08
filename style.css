@@ -32,7 +32,8 @@
 .shape-container{
     position: absolute;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
+    grid-row: auto;
     width: 90px;
     height: 90px;
     grid-row: auto;
