@@ -36,8 +36,7 @@ class movement extends GameLogic {
                      
         } 
     }
-
-    
+   
     pieceRotation (shapeElement,e) {
         if(this.checkCollisionBottom() && this.checkCollisionBorders(shapeElement,e) ){
             this.rotationDegree += 90    
@@ -46,13 +45,10 @@ class movement extends GameLogic {
             if(direction.direction === 'right') {
                 direction.invokeCounter.forEach(() => {
                 this.rightMove(shapeElement,e)
-                
-
                 })
             } else if(direction.direction === 'left') {
                 direction.invokeCounter.forEach(() => {        
-                    this.leftMove(shapeElement,e)
-                    
+                    this.leftMove(shapeElement,e)  
                 })
             } 
         }        

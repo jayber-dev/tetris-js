@@ -11,14 +11,23 @@ class GameLogic {
         this.occupiedArray = []
     }
 
-    shapeGenerator (){        
+    shapeGenerator (){    
+        let r = 0    
         let squereElem = ''
         const shpesArray = [lShape,tShape,sShape,iShape] // randomized the shape generationg
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
-        // shape builder        
-        shpesArray[3].forEach((el) => { 
+        // shape builder  
+        shapeElem.style.display = shpesArray[r].styleProp.display  
+        shapeElem.style.position = shpesArray[r].styleProp.position
+        shapeElem.style.gridTemplateColumns = shpesArray[r].styleProp['grid-template-columns']
+        shapeElem.style.width = shpesArray[r].styleProp.width
+        shapeElem.style.height = shpesArray[r].styleProp.height
+        shapeElem.style.gridRow = shpesArray[r].styleProp['grid-row']
+
+
+        shpesArray[3].matrix.forEach((el) => {
             el.forEach(i => {
                 if(i === 1) {
                     squereElem = document.createElement('div')
@@ -34,7 +43,9 @@ class GameLogic {
         })
            
     });
-        shapeElem.style.left = "120px"
+    
+        shapeElem.style.top = "-30px"
+        shapeElem.style.left = "90px"
         return shapeElem
     }
 
