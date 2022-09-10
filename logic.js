@@ -73,7 +73,26 @@ class GameLogic {
         }
     }
 
+    rowRmoval(ArrayToRemove){
+        let occupied = document.querySelectorAll('.occupied')
+        console.log(ArrayToRemove.length);
+        occupied.forEach(squereElm => {
+            ArrayToRemove.forEach(emptySquere => {
+                console.log(squereElm);
+                console.log(emptySquere);
+                if(squereElm.getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
+                squereElm.getBoundingClientRect().y === emptySquere.getBoundingClientRect().y)
+                    console.log('must be removed');
+                    squereElm.classList = 'squere'
+                    occupied = document.querySelectorAll('.occupied')
+            })
+        })
+           
+        
+    }
+
     checkCompleteRow(){
+        let counter = 0
         const COL =10
         let boardArray =[];
         const squereElem = document.querySelectorAll('.empty-squere')
@@ -86,9 +105,23 @@ class GameLogic {
             boardArray.push(tempArr)
         }
         
-        for(let i = 0; i < boardArray.length -1; i++){
+        for(let i = 0; i < boardArray.length; i++){
             
+            for(let j = 0; j < boardArray[i].length;j++){
+                if(boardArray[i][j].fixedOnPosition === 1){
+                    counter += 1
+                    if(counter === 10) {
+                        this.rowRmoval(boardArray[i])
+                        console.log('row full', boardArray[i]);
+                    }
+                } else {
+                    counter = 0
+                }
+            }
+            counter = 0
         }
+        return false
+       
 
     }
 
