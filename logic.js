@@ -12,7 +12,7 @@ class GameLogic {
     }
 
     shapeGenerator (){    
-        let r = 0    
+        let r = 3    
         let squereElem = ''
         const shpesArray = [lShape,tShape,sShape,iShape] // randomized the shape generationg
         const shapeElem = document.createElement('div')
@@ -58,8 +58,10 @@ class GameLogic {
         })
         return this.occupiedArray
     }
-
+    
     setFixedOnEmptySqueres() {
+        /* Sets a marker on the empty matrix to check where there is
+        an occupied squere*/
         const emptySqueres = document.querySelectorAll('.empty-squere')
         const occupiedsqueres = document.querySelectorAll('.occupied')
 
@@ -73,9 +75,8 @@ class GameLogic {
         }
     }
 
-    rowRmoval(ArrayToRemove){
+    rowRemoval(ArrayToRemove,rowIndex){
         let occupied = document.querySelectorAll('.occupied')
-        console.log(ArrayToRemove.length);
         occupied.forEach(squereElm => {
             ArrayToRemove.forEach(emptySquere => {
                 if(squereElm.getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
@@ -85,15 +86,29 @@ class GameLogic {
                     squereElm.classList.remove("occupied")
                     emptySquere.fixedOnPosition = 0;
                 }
-                    
+                 
             })
-        })
-           
-        
+        })   
+        this.moveRowsDown(ArrayToRemove,rowIndex)
+    }
+
+    moveRowsDown(rowsToManipulate,rowIndex) {
+        // let occupied = document.querySelectorAll('.occupied')
+        let shapeElem = document.querySelectorAll('.shape-container')
+        for(let i =0; i < shapeElem.length ; i++){
+            let pos = Number(shapeElem[i].style.top)
+            shapeElem[i].style.top = `${pos +30}px`
+            // occupied[i].style.top = (squereLeftPos)+"px"
+
+        }
+        console.log(this,rowsToManipulate);
     }
 
     checkCompleteRow(){
+        /* Checks if row is full and needed to be handeled with row removal method 
+        if row is complete invoke a rowRemoval method*/
         let counter = 0
+        let rowIndex = 0
         const COL =10
         let boardArray =[];
         const squereElem = document.querySelectorAll('.empty-squere')
@@ -112,8 +127,8 @@ class GameLogic {
                 if(boardArray[i][j].fixedOnPosition === 1){
                     counter += 1
                     if(counter === 10) {
-                        this.rowRmoval(boardArray[i])
-                        console.log('row full', boardArray[i]);
+                        console.log(i);
+                        this.rowRemoval(boardArray[i],i)
                     }
                 } else {
                     counter = 0
@@ -126,7 +141,9 @@ class GameLogic {
 
     }
 
-    checkCollisionBottom () { // Check squere collision on board squere by squere
+    checkCollisionBottom () { 
+        /* Check squere collision on board squere by squere with the buttom border and the other 
+        fixed in place squeres */
         const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board              
         const occupied = this.collisionDataBuilder()
 
