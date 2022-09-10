@@ -93,13 +93,14 @@ class GameLogic {
     }
 
     moveRowsDown(rowsToManipulate,rowIndex) {
-        // let occupied = document.querySelectorAll('.occupied')
+        let occupied = document.querySelectorAll('.occupied')
         let shapeElem = document.querySelectorAll('.shape-container')
-        for(let i =0; i < shapeElem.length ; i++){
-            let pos = Number(shapeElem[i].style.top)
-            shapeElem[i].style.top = `${pos +30}px`
-            // occupied[i].style.top = (squereLeftPos)+"px"
+        for(let i =0; i < occupied.length ; i++){
+            const pos = occupied[i].getBoundingClientRect().top
+            console.log(pos);
 
+            occupied[i].style.position = `absolute`
+            occupied[i].style.top = `${50}px`
         }
         console.log(this,rowsToManipulate);
     }
@@ -108,7 +109,6 @@ class GameLogic {
         /* Checks if row is full and needed to be handeled with row removal method 
         if row is complete invoke a rowRemoval method*/
         let counter = 0
-        let rowIndex = 0
         const COL =10
         let boardArray =[];
         const squereElem = document.querySelectorAll('.empty-squere')
