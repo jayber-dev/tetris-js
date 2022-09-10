@@ -18,16 +18,15 @@ class GameLogic {
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
-        // shape builder  
+        // Shape container style initilizer  
         shapeElem.style.display = shpesArray[r].styleProp.display  
         shapeElem.style.position = shpesArray[r].styleProp.position
         shapeElem.style.gridTemplateColumns = shpesArray[r].styleProp['grid-template-columns']
         shapeElem.style.width = shpesArray[r].styleProp.width
         shapeElem.style.height = shpesArray[r].styleProp.height
         shapeElem.style.gridRow = shpesArray[r].styleProp['grid-row']
-
-
-        shpesArray[3].matrix.forEach((el) => {
+        // Shape builder
+        shpesArray[r].matrix.forEach((el) => {
             el.forEach(i => {
                 if(i === 1) {
                     squereElem = document.createElement('div')
@@ -35,24 +34,21 @@ class GameLogic {
                     squereElem.fixedOnPosition = 0;
                     shapeElem.appendChild(squereElem)
                 } else {
-                    const squereElem = document.createElement('div')
+                    squereElem = document.createElement('div')
                     squereElem.fixedOnPosition = 0;
                     squereElem.classList = 'squere'
                     shapeElem.appendChild(squereElem)
                 }
-        })
-           
+        })   
     });
-    
         shapeElem.style.top = "-30px"
         shapeElem.style.left = "90px"
         return shapeElem
     }
 
     // ------------------------------- Collision detection ----------------------------------------
-
-    checkCollisionBottom () { // Check squere collision on board squere by squere
-        const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board
+    // Current active shape builder //
+    collisionDataBuilder(){
         const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
              
@@ -60,47 +56,86 @@ class GameLogic {
             if(element.classList[2] === "occupied")
                 this.occupiedArray.push(element)
         })
+        return this.occupiedArray
+    }
+
+    setFixedOnEmptySqueres() {
+        const emptySqueres = document.querySelectorAll('.empty-squere')
+        const occupiedsqueres = document.querySelectorAll('.occupied')
+
+        for(let i = occupiedsqueres.length - 4; i<occupiedsqueres.length; i++) {
+            emptySqueres.forEach(emptySquere => {
+                if(occupiedsqueres[i].getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
+                    occupiedsqueres[i].getBoundingClientRect().y === emptySquere.getBoundingClientRect().y) {
+                        emptySquere.fixedOnPosition = 1 
+                    }
+            })
+        }
+    }
+
+    checkCompleteRow(){
+        const COL =10
+        let boardArray =[];
+        const squereElem = document.querySelectorAll('.empty-squere')
+
+        for(let i = 0; i < squereElem.length; i += 10) {
+            const tempArr = []
+            for(let j = 0;j < COL; j++){
+                tempArr.push(squereElem[j+i])
+            }
+            boardArray.push(tempArr)
+        }
         
+        for(let i = 0; i < boardArray.length -1; i++){
+            
+        }
+
+    }
+
+    checkCollisionBottom () { // Check squere collision on board squere by squere
+        const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board              
+        const occupied = this.collisionDataBuilder()
+
         // Comparing moving squeres to all other squers on board
-        for(let i=0; i< this.occupiedArray.length; i++){
-            if(this.occupiedArray[i].getBoundingClientRect().bottom === gameContainer.getBoundingClientRect().bottom){
+        for(let i=0; i< occupied.length; i++){
+            if(occupied[i].getBoundingClientRect().bottom === gameContainer.getBoundingClientRect().bottom){
                 staticElem.forEach(element => {
                     element.fixedOnPosition = 1
+                    
+                    this.setFixedOnEmptySqueres()
                 })
                 this.occupiedArray = []
                 return false
             };
 
-            for(let j = 0; j < (staticElem.length) - (this.occupiedArray.length); j++) {
-                
-                if(this.occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && 
-                    this.occupiedArray[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {  
+            for(let j = 0; j < (staticElem.length) - (occupied.length); j++) {        
+                if(occupied[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && 
+                    occupied[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {  
                     staticElem.forEach(element => {
                         element.fixedOnPosition = 1
+                        
+                        this.setFixedOnEmptySqueres()
                     })
                     this.occupiedArray = []
                     return false
                 }             
             }
         }
+        
         this.occupiedArray = []
         return true
     }
     // ----------------------------------- Side border collison check ------------------------------------------------
 
     checkCollisionBorders (shapeElement,e) {
-        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
-        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
-        let isNotOutOfBound = true;  
-
-        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
-            if(element.classList[2] === "occupied")
-                this.occupiedArray.push(element)
-        })
-        // console.log(e.code)
-        for(let i = 0; i < this.occupiedArray.length; i++){
+        // const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
+        let isNotOutOfBound = true; 
+        
+        const occupied = this.collisionDataBuilder()
+        
+        for(let i = 0; i < occupied.length; i++){
             if(e.code === 'ArrowLeft') {
-                if(this.occupiedArray[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
+                if(occupied[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
                     isNotOutOfBound = true;
                 } else {
                     isNotOutOfBound = false;
@@ -108,7 +143,7 @@ class GameLogic {
                     break
                 }
             } else if(e.code === 'ArrowRight'){
-                if(this.occupiedArray[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
+                if(occupied[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
                     isNotOutOfBound = true;
                 } else {
                     isNotOutOfBound = false;
@@ -120,23 +155,18 @@ class GameLogic {
         this.occupiedArray = []
         return isNotOutOfBound
     }
-
     // ------------------------------------ Shape collision with sides of other shapes -----------------------------
     leftCheckShapeSideCollision () {
         const staticElem = document.querySelectorAll('.occupied')
-        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
-        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
         let isNotOutOfBound = true;  
 
-        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
-            if(element.classList[2] === "occupied")
-                this.occupiedArray.push(element)
-        })
+        const occupied = this.collisionDataBuilder()
 
-        for(let i=0; i< this.occupiedArray.length; i++){
-            for(let j = 0; j < (staticElem.length) - (this.occupiedArray.length); j++) {    
-                if(this.occupiedArray[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().right &&
-                   this.occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().bottom) {        
+        for(let i=0; i< occupied.length; i++){
+            for(let j = 0; j < (staticElem.length) - (occupied.length); j++) {    
+                if(occupied[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().right &&
+                  occupied[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().bottom) { 
+                    const occupied = this.collisionDataBuilder()       
                     return isNotOutOfBound = false
                 } else {      
                     isNotOutOfBound = true
@@ -148,19 +178,15 @@ class GameLogic {
 
     rightCheckShapeSideCollision () {
         const staticElem = document.querySelectorAll('.occupied')
-        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
-        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
         let isNotOutOfBound = true;  
 
-        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
-            if(element.classList[2] === "occupied")
-                this.occupiedArray.push(element)
-        })
+        const occupied = this.collisionDataBuilder()
 
-        for(let i=0; i< this.occupiedArray.length; i++){
-            for(let j = 0; j < (staticElem.length) - (this.occupiedArray.length); j++) {    
-                if(this.occupiedArray[i].getBoundingClientRect().right === staticElem[j].getBoundingClientRect().left &&
-                   this.occupiedArray[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().bottom) {        
+        for(let i=0; i<occupied.length; i++){
+            for(let j = 0; j < (staticElem.length) - (occupied.length); j++) {    
+                if(occupied[i].getBoundingClientRect().right === staticElem[j].getBoundingClientRect().left &&
+                   occupied[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().bottom) {        
+                    const occupied = this.collisionDataBuilder()
                     return isNotOutOfBound = false
                 } else {      
                     isNotOutOfBound = true
@@ -171,24 +197,19 @@ class GameLogic {
     }
 
     rotationDirection(){
-        const staticElem = document.querySelectorAll('.occupied')
-        const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
-        const activeChild = shapeContainer[shapeContainer.length-1].childNodes // Extraction of child elements of moving piece
         let rotateDirection = {
             direction: "",
             invokeCounter: [],
         } 
+        
+        const occupied = this.collisionDataBuilder()
 
-        activeChild.forEach(element => { // Creation of only occupied active array for comparisson 
-            if(element.classList[2] === "occupied")
-                this.occupiedArray.push(element)
-        })
-        for(let i = 0; i < this.occupiedArray.length; i++) {
-            if(this.occupiedArray[i].getBoundingClientRect().right > gameContainer.getBoundingClientRect().right){
+        for(let i = 0; i < occupied.length; i++) {
+            if(occupied[i].getBoundingClientRect().right > gameContainer.getBoundingClientRect().right){
                 rotateDirection.direction = 'left'
                 rotateDirection.invokeCounter.push('call') 
                 console.log('wow');
-            }else if(this.occupiedArray[i].getBoundingClientRect().left < gameContainer.getBoundingClientRect().left){
+            }else if(occupied[i].getBoundingClientRect().left < gameContainer.getBoundingClientRect().left){
                 rotateDirection.direction  = 'right'
                 rotateDirection.invokeCounter.push('call') 
                 console.log('nana');
@@ -196,7 +217,6 @@ class GameLogic {
         }
         return rotateDirection
     }
-
 }
 
 export default GameLogic

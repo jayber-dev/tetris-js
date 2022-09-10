@@ -3,13 +3,12 @@ import GameLogic from "./logic.js";
 class movement extends GameLogic {
     constructor(shapeElem, boardRow,boardCol){
         super(shapeElem, boardRow,boardCol)
-        this.boardRow = boardRow;
-        this.boardCol = boardCol;
         this.shapeElem = shapeElem
         this.fixedRotationDegree = 180
         this.rotationDegree = 0;
         this.occupiedArray = []
     }
+    
     downMove (shapeElement) {
         
         if(this.checkCollisionBottom()){   
@@ -53,8 +52,6 @@ class movement extends GameLogic {
             } 
         }        
     }
-    
-
 }
 
 export default movement
