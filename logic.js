@@ -78,13 +78,14 @@ class GameLogic {
         console.log(ArrayToRemove.length);
         occupied.forEach(squereElm => {
             ArrayToRemove.forEach(emptySquere => {
-                console.log(squereElm);
-                console.log(emptySquere);
                 if(squereElm.getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
-                squereElm.getBoundingClientRect().y === emptySquere.getBoundingClientRect().y)
+                squereElm.getBoundingClientRect().y === emptySquere.getBoundingClientRect().y){
                     console.log('must be removed');
-                    squereElm.classList = 'squere'
-                    occupied = document.querySelectorAll('.occupied')
+                    squereElm.classList.remove("shape")
+                    squereElm.classList.remove("occupied")
+                    emptySquere.fixedOnPosition = 0;
+                }
+                    
             })
         })
            
