@@ -37,23 +37,25 @@ console.table(boardArray);
 
 // --------------------------------------- game progress --------------------------------------
 console.log(gameContainer.getBoundingClientRect());
-let logic = new Logic(shapeElem, -30 ,90);
+let logic = new Logic(shapeElem, -60 ,90);
 let move = new movement(shapeElem, logic.boardRow ,logic.boardCol)
 let shapeElement = logic.shapeGenerator();
 
 // game loop -----------------------------
+
 const shapeHandler = setInterval(()=> { 
     // debugger
-    let isCollide = logic.checkCollisionBottom()
-    if(isCollide){
+    let isCollideBottom = logic.checkCollisionBottom()
+    let isCollideTop = logic.checkCollisionTop()
+    if(isCollideBottom && isCollideTop){
         move.downMove(shapeElement, 0, 0)
     } else {
         logic.checkCompleteRow()
-        logic = new Logic(shapeElem, -30 ,90)
+        logic = new Logic(shapeElem, -60 ,90)
         move = new movement(shapeElem,logic.boardRow ,logic.boardCol)
         shapeElement = logic.shapeGenerator()
     }
-}, 1000)
+}, 200)
 
 
 // -------------------------------------- EVENT LISTENERS -------------------------------------
