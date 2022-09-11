@@ -79,7 +79,7 @@ window.addEventListener('keydown', (e) => {
 })
 
 window.addEventListener('keydown', (e) => {
-    console.log(e);
+    
     if(e.code === 'Space'){
         move.pieceRotation(shapeElement,e)
     }
