@@ -11,10 +11,12 @@ const SQUERE_SIZE = 30
 
 const shapeElem = document.createElement('div')
 const gameContainer = document.querySelector('.game-container')
-const squereElem = document.querySelectorAll('.empty-squere')
+
 
 gameContainer.style.width = COL * SQUERE_SIZE+ 'px'
 gameContainer.style.height = ROW * SQUERE_SIZE+ 'px'
+let isGame = false
+
 
 
 for(let i= 0; i< COL * ROW; i++){
@@ -22,6 +24,7 @@ for(let i= 0; i< COL * ROW; i++){
     gameBoard.classList.add('empty-squere')
     gameContainer.appendChild(gameBoard)
 }
+const squereElem = document.querySelectorAll('.empty-squere')
 
 let boardArray =[];
 
@@ -34,55 +37,79 @@ for(let i = 0; i < squereElem.length; i += 10) {
 }
 
 console.table(boardArray);
-
+document.querySelector('button').addEventListener('click', () => {
+    document.querySelector('button').disabled = true
+    isGame =true
+    gameProccess()
+})
 // --------------------------------------- game progress --------------------------------------
-console.log(gameContainer.getBoundingClientRect());
-let logic = new Logic(shapeElem, -30 ,90);
-let move = new movement(shapeElem, logic.boardRow ,logic.boardCol)
-let shapeElement = logic.shapeGenerator();
+function gameProccess (){
+    let logic = new Logic(shapeElem, -60 ,90);
+    let move = new movement(shapeElem, logic.boardRow ,logic.boardCol)
+    let shapeElement = logic.shapeGenerator();
 
 // game loop -----------------------------
-const shapeHandler = setInterval(()=> { 
-    let isCollide = logic.checkCollisionBottom()
-    if(isCollide){
-        move.downMove(shapeElement, 0, 0)
-    } else {
-        logic.checkCompleteRow()
-        logic = new Logic(shapeElem, -30 ,90)
-        move = new movement(shapeElem,logic.boardRow ,logic.boardCol)
-        shapeElement = logic.shapeGenerator()
-    }
-}, 1000)
+
+    const shapeHandler = setInterval(()=> { 
+        // debugger  
+        let isCollideBottom = logic.checkCollisionBottom()
+        if(isGame){
+            if(isCollideBottom){
+                move.downMove(shapeElement, 0, 0)
+            } else {
+                logic.checkCompleteRow()
+                let stopGame = logic.checkCollisionTop()
+                if(!stopGame) {
+                    clearInterval(shapeHandler)
+                }      
+                logic = new Logic(shapeElem, -60 ,90)
+                move = new movement(shapeElem,logic.boardRow ,logic.boardCol)
+                shapeElement = logic.shapeGenerator()
+            } 
+        } else {
+            console.log('game terminated');
+        }
+
+    }, 200)
+
+    window.addEventListener('keydown', (e) => {
+    
+        if(e.code === 'ArrowRight'){
+            move.rightMove(shapeElement,e)
+        }
+    })
+    
+    window.addEventListener('keydown', (e) => {
+        
+        if(e.code === 'ArrowLeft'){
+            move.leftMove(shapeElement,e)
+        }
+    })
+    
+    window.addEventListener('keydown', (e) => {
+        
+        if(e.code === 'ArrowDown'){
+            move.downMove(shapeElement)
+        }
+    })
+    
+    window.addEventListener('keydown', (e) => {
+        
+        if(e.code === 'Space'){
+            move.pieceRotation(shapeElement,e)
+        }
+    })
+    
+    
+}
+
+
+
+
 
 
 // -------------------------------------- EVENT LISTENERS -------------------------------------
-window.addEventListener('keydown', (e) => {
-    
-    if(e.code === 'ArrowRight'){
-        move.rightMove(shapeElement,e)
-    }
-})
 
-window.addEventListener('keydown', (e) => {
-    
-    if(e.code === 'ArrowLeft'){
-        move.leftMove(shapeElement,e)
-    }
-})
-
-window.addEventListener('keydown', (e) => {
-    
-    if(e.code === 'ArrowDown'){
-        move.downMove(shapeElement)
-    }
-})
-
-window.addEventListener('keydown', (e) => {
-    console.log(e);
-    if(e.code === 'Space'){
-        move.pieceRotation(shapeElement,e)
-    }
-})
 
 
 

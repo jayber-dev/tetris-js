@@ -11,10 +11,22 @@ const lShape = {
                     'height': '90px'
                 }
 }
+const lShapeInvert = {
+                    matrix:[[1,0,0],
+                            [1,1,1],
+                            [0,0,0]],
+                    styleProp:{
+                        'position': 'absolute',
+                        'display': 'grid',
+                        'grid-template-columns': 'auto auto auto',
+                        'grid-row': 'auto',
+                        'width': '90px',
+                        'height': '90px'
+                    }
+}
 
 const iShape =  {
-                matrix: [
-                        [0,0,0,0,],
+                matrix: [[0,0,0,0],
                         [1,1,1,1],
                         [0,0,0,0]],
                 styleProp: {
@@ -40,6 +52,20 @@ const sShape = {
                     'height': '90px'
                 }
 }
+
+const sShapeInvert = {
+    matrix:[[1,1,0],
+            [0,1,1],
+            [0,0,0]],
+    styleProp: {
+        'position': 'absolute',
+        'display': 'grid',
+        'grid-template-columns': 'auto auto auto',
+        'grid-row': 'auto',
+        'width': '90px',
+        'height': '90px'
+    }
+}
 const tShape = {
                 matrix:[[0,1,0],
                         [1,1,1],
@@ -55,4 +81,4 @@ const tShape = {
 }
 
 
-export {iShape, lShape, sShape, tShape}
+export {iShape, lShape, sShape, tShape, sShapeInvert, lShapeInvert}

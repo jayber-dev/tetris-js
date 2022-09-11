@@ -1,6 +1,7 @@
-import { iShape, lShape, tShape ,sShape} from './shapes.js'
+import { iShape, lShape, tShape ,sShape, sShapeInvert, lShapeInvert} from './shapes.js'
 
 const gameContainer = document.querySelector('.game-container')
+let score = 0;
 
 class GameLogic {
     constructor(shapeElem, boardRow,boardCol){
@@ -8,25 +9,27 @@ class GameLogic {
         this.boardCol = boardCol;
         this.shapeElem = shapeElem
         this.rotationDegree = 0;
-        this.occupiedArray = []
+        this.occupiedArray = [];
+        
     }
 
-    shapeGenerator (){    
-        let r = 3    
+    shapeGenerator (){       
         let squereElem = ''
-        const shpesArray = [lShape,tShape,sShape,iShape] // randomized the shape generationg
+        let randomPicker = Math.floor(Math.random() * (5 - 0) + 0);
+        console.log(randomPicker);
+        const shpesArray = [lShape,tShape,sShape,iShape,sShapeInvert,lShapeInvert] // randomized the shape generationg
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
         gameContainer.appendChild(shapeElem)
         // Shape container style initilizer  
-        shapeElem.style.display = shpesArray[r].styleProp.display  
-        shapeElem.style.position = shpesArray[r].styleProp.position
-        shapeElem.style.gridTemplateColumns = shpesArray[r].styleProp['grid-template-columns']
-        shapeElem.style.width = shpesArray[r].styleProp.width
-        shapeElem.style.height = shpesArray[r].styleProp.height
-        shapeElem.style.gridRow = shpesArray[r].styleProp['grid-row']
+        shapeElem.style.display = shpesArray[randomPicker].styleProp.display  
+        shapeElem.style.position = shpesArray[randomPicker].styleProp.position
+        shapeElem.style.gridTemplateColumns = shpesArray[randomPicker].styleProp['grid-template-columns']
+        shapeElem.style.width = shpesArray[randomPicker].styleProp.width
+        shapeElem.style.height = shpesArray[randomPicker].styleProp.height
+        shapeElem.style.gridRow = shpesArray[randomPicker].styleProp['grid-row']
         // Shape builder
-        shpesArray[r].matrix.forEach((el) => {
+        shpesArray[randomPicker].matrix.forEach((el) => {
             el.forEach(i => {
                 if(i === 1) {
                     squereElem = document.createElement('div')
@@ -41,59 +44,10 @@ class GameLogic {
                 }
         })   
     });
-        shapeElem.style.top = "-30px"
+        shapeElem.style.top = "-60px"
         shapeElem.style.left = "90px"
         return shapeElem
     }
-
-    // shapeGenerator1 (){ 
-    //     debugger   
-    //     let r = 3    
-    //     let squereElem = ''
-    //     const shpesArray = [lShape,tShape,sShape,iShape] // randomized the shape generationg
-    //     const shapeElem = document.createElement('div')
-    //     shapeElem.classList = 'shape-container'
-    //     gameContainer.appendChild(shapeElem)
-    //     // Shape container style initilizer  
-        
-    //     shapeElem.style.position = "abosulte"
-    //     // shapeElem.style.gridTemplateColumns = shpesArray[r].styleProp['grid-template-columns']
-    //     shapeElem.style.width = shpesArray[r].styleProp.width
-    //     shapeElem.style.height = shpesArray[r].styleProp.height
-    //     shapeElem.style.gridRow = shpesArray[r].styleProp['grid-row']
-    //     // Shape builder
-    //     for(let i= 0;i < shpesArray[r].matrix.length ;i++) {
-    //         for(let j = 0; j <shpesArray[r].matrix[i].length; j++){
-    //             if(shpesArray[r].matrix[i][j] === 1) {
-    //                 squereElem = document.createElement('div')
-    //                 squereElem.classList = 'squere shape occupied' 
-    //                 let resi = i * 30
-    //                 squereElem.fixedOnPosition = 0;
-    //                 squereElem.style.top = `${resi}px`
-    //                 let resj =j * 30
-    //                 squereElem.style.left = `${resj}px`
-    //                 shapeElem.appendChild(squereElem)
-    //             } else {
-    //                 squereElem = document.createElement('div')
-    //                 squereElem.fixedOnPosition = 0;
-    //                 squereElem.classList = 'squere'                
-    //                 // squereElem.style.display = 'grid'
-    //                 squereElem.fixedOnPosition = 0;
-    //                 let resi = i * 30
-    //                 squereElem.style.top = `${resi}px`
-    //                 let resj = j * 30
-    //                 squereElem.style.left = `${resj}px`
-    //                 shapeElem.appendChild(squereElem)                  
-    //             }
-    //         }
-                
-    //         }
-          
-    
-    //     shapeElem.style.top = "-30px"
-    //     shapeElem.style.left = "90px"
-    //     return shapeElem
-    // }
 
     // ------------------------------- Collision detection ----------------------------------------
     // Current active shape builder //
@@ -124,13 +78,12 @@ class GameLogic {
         }
     }
 
-    rowRemoval(ArrayToRemove,rowIndex){
+    rowRemoval(ArrayToRemove,rowIndex,completeBoardArr){
         let occupied = document.querySelectorAll('.occupied')
         occupied.forEach(squereElm => {
             ArrayToRemove.forEach(emptySquere => {
                 if(squereElm.getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
                 squereElm.getBoundingClientRect().y === emptySquere.getBoundingClientRect().y){
-                    console.log('must be removed');
                     squereElm.classList.remove("shape")
                     squereElm.classList.remove("occupied")
                     emptySquere.fixedOnPosition = 0;
@@ -138,20 +91,56 @@ class GameLogic {
                  
             })
         })   
-        this.moveRowsDown(ArrayToRemove,rowIndex)
+        score = score + 1
+        document.querySelector('.score').textContent = `your score is: ${score}`
+        this.moveRowsDown(ArrayToRemove,rowIndex,completeBoardArr)
     }
 
-    moveRowsDown(rowsToManipulate,rowIndex) {
+    moveRowsDown(rowsToManipulate,rowIndex,completeBoardArr) {
         let occupied = document.querySelectorAll('.occupied')
-        let shapeElem = document.querySelectorAll('.shape-container')
-        for(let i =0; i < occupied.length ; i++){
-            const pos = occupied[i].getBoundingClientRect().top
-            console.log(pos);
-
-            // occupied[i].style.position = `absolute`
-            // occupied[i].style.top = `${50}px`
+        
+        completeBoardArr.forEach(row => {
+            row.forEach(squere => {
+                occupied.forEach(occupied => {
+                    if(squere.getBoundingClientRect().x === occupied.getBoundingClientRect().x && 
+                        squere.getBoundingClientRect().y === occupied.getBoundingClientRect().y) {
+                            squere.hasOccupied = 1
+                        }
+                })
+            })
+            
+        })
+        for(let i = 0; i< completeBoardArr[rowIndex].length;i++){
+            completeBoardArr[rowIndex][i].remove()
         }
-        console.log(this,rowsToManipulate);
+        completeBoardArr.splice(rowIndex,1)
+        const emptySqueres = document.querySelectorAll('.empty-squere')
+        const allShapeSqueres = document.querySelectorAll('.squere')
+        completeBoardArr.unshift([])
+        for(let i = 0; i < 10; i++) {      
+            const gameBoard = document.createElement('div')
+            gameBoard.classList.add('empty-squere')
+            gameContainer.insertBefore(gameBoard,emptySqueres[0])
+            completeBoardArr[0].unshift(gameBoard)     
+        }
+
+        completeBoardArr.forEach(row => {
+            row.forEach(squere => {
+                allShapeSqueres.forEach(occupied => {
+                    if(squere.getBoundingClientRect().x === occupied.getBoundingClientRect().x && 
+                    squere.getBoundingClientRect().y === occupied.getBoundingClientRect().y) {
+                        if(squere.hasOccupied === 1) {
+                            occupied.classList = 'squere shape occupied'
+                            occupied.fixedOnPosition = 1
+                        } else {
+                            occupied.classList = 'squere'
+                            occupied.fixedOnPosition = 0
+                        }
+                    }
+                })
+            })
+        })
+       
     }
 
     checkCompleteRow(){
@@ -171,13 +160,15 @@ class GameLogic {
         }
         
         for(let i = 0; i < boardArray.length; i++){
-            
-            for(let j = 0; j < boardArray[i].length;j++){
+            if(boardArray[i][0].fixedOnPosition === undefined){
+                counter = 0
+                continue} 
+            for(let j = 0; j < boardArray[i].length;j++){           
                 if(boardArray[i][j].fixedOnPosition === 1){
                     counter += 1
                     if(counter === 10) {
-                        console.log(i);
-                        this.rowRemoval(boardArray[i],i)
+                        
+                        this.rowRemoval(boardArray[i],i,boardArray)
                     }
                 } else {
                     counter = 0
@@ -186,8 +177,21 @@ class GameLogic {
             counter = 0
         }
         return false
-       
+    }
 
+    checkCollisionTop(){
+        const occupied = this.collisionDataBuilder();
+        for(let i = 0; i < occupied.length; i++) {
+            console.log(occupied[i].getBoundingClientRect().top);
+            if(occupied[i].getBoundingClientRect().top === 40){
+                console.log('stop the game');
+                this.occupiedArray = []
+                return false
+            } else {
+                this.occupiedArray = []
+                return true
+            }
+        }
     }
 
     checkCollisionBottom () { 
@@ -195,8 +199,7 @@ class GameLogic {
         fixed in place squeres */
         const staticElem = document.querySelectorAll('.occupied') // All occupied squeres on board              
         const occupied = this.collisionDataBuilder()
-
-        // Comparing moving squeres to all other squers on board
+        
         for(let i=0; i< occupied.length; i++){
             if(occupied[i].getBoundingClientRect().bottom === gameContainer.getBoundingClientRect().bottom){
                 staticElem.forEach(element => {
@@ -207,7 +210,7 @@ class GameLogic {
                 this.occupiedArray = []
                 return false
             };
-
+            // Comparing moving squeres to all other squers on board
             for(let j = 0; j < (staticElem.length) - (occupied.length); j++) {        
                 if(occupied[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && 
                     occupied[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {  
