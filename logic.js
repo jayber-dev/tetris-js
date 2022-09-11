@@ -46,6 +46,55 @@ class GameLogic {
         return shapeElem
     }
 
+    // shapeGenerator1 (){ 
+    //     debugger   
+    //     let r = 3    
+    //     let squereElem = ''
+    //     const shpesArray = [lShape,tShape,sShape,iShape] // randomized the shape generationg
+    //     const shapeElem = document.createElement('div')
+    //     shapeElem.classList = 'shape-container'
+    //     gameContainer.appendChild(shapeElem)
+    //     // Shape container style initilizer  
+        
+    //     shapeElem.style.position = "abosulte"
+    //     // shapeElem.style.gridTemplateColumns = shpesArray[r].styleProp['grid-template-columns']
+    //     shapeElem.style.width = shpesArray[r].styleProp.width
+    //     shapeElem.style.height = shpesArray[r].styleProp.height
+    //     shapeElem.style.gridRow = shpesArray[r].styleProp['grid-row']
+    //     // Shape builder
+    //     for(let i= 0;i < shpesArray[r].matrix.length ;i++) {
+    //         for(let j = 0; j <shpesArray[r].matrix[i].length; j++){
+    //             if(shpesArray[r].matrix[i][j] === 1) {
+    //                 squereElem = document.createElement('div')
+    //                 squereElem.classList = 'squere shape occupied' 
+    //                 let resi = i * 30
+    //                 squereElem.fixedOnPosition = 0;
+    //                 squereElem.style.top = `${resi}px`
+    //                 let resj =j * 30
+    //                 squereElem.style.left = `${resj}px`
+    //                 shapeElem.appendChild(squereElem)
+    //             } else {
+    //                 squereElem = document.createElement('div')
+    //                 squereElem.fixedOnPosition = 0;
+    //                 squereElem.classList = 'squere'                
+    //                 // squereElem.style.display = 'grid'
+    //                 squereElem.fixedOnPosition = 0;
+    //                 let resi = i * 30
+    //                 squereElem.style.top = `${resi}px`
+    //                 let resj = j * 30
+    //                 squereElem.style.left = `${resj}px`
+    //                 shapeElem.appendChild(squereElem)                  
+    //             }
+    //         }
+                
+    //         }
+          
+    
+    //     shapeElem.style.top = "-30px"
+    //     shapeElem.style.left = "90px"
+    //     return shapeElem
+    // }
+
     // ------------------------------- Collision detection ----------------------------------------
     // Current active shape builder //
     collisionDataBuilder(){
@@ -99,8 +148,8 @@ class GameLogic {
             const pos = occupied[i].getBoundingClientRect().top
             console.log(pos);
 
-            occupied[i].style.position = `absolute`
-            occupied[i].style.top = `${50}px`
+            // occupied[i].style.position = `absolute`
+            // occupied[i].style.top = `${50}px`
         }
         console.log(this,rowsToManipulate);
     }
