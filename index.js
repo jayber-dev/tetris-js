@@ -26,21 +26,12 @@ for(let i= 0; i< COL * ROW; i++){
 }
 const squereElem = document.querySelectorAll('.empty-squere')
 
-// let boardArray =[];
-
-// for(let i = 0; i < squereElem.length; i += 10) {
-//     const tempArr = []
-//     for(let j = 0;j < COL; j++){
-//         tempArr.push(squereElem[j+i])
-//     }
-//     boardArray.push(tempArr)
-// }
-
-// console.table(boardArray);
 // --------------------------------------- Game starter btn -----------------------------------
 const startGameBtn = document.querySelector('button')
 startGameBtn.addEventListener('click', () => {
     document.querySelector('button').disabled = true
+    document.querySelector('h1').style.display = 'none'
+
     isGame =true
     gameProccess() 
     
@@ -64,6 +55,7 @@ function gameProccess (){
                 logic.checkCompleteRow()
                 let stopGame = logic.checkCollisionTop()
                 if(!stopGame) {
+                    document.querySelector('h1').style.display = 'block'
                     clearInterval(shapeHandler)
                     startGameBtn.disabled = false
                 }      

@@ -70,6 +70,14 @@ button:disabled {
     text-align: center;
 }
 
+h1 {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%) skewY(-10deg);
+    display: none;
+    z-index: 1;
+}
+
 
 
 
