@@ -92,7 +92,7 @@ class GameLogic {
         const occupied = this.collisionDataBuilder();
         for(let i = 0; i < occupied.length; i++) {
             console.log(occupied[i].getBoundingClientRect().top);
-            if(occupied[i].getBoundingClientRect().top === 40){
+            if(occupied[i].getBoundingClientRect().top === gameContainer.getBoundingClientRect().top){
                 console.log('stop the game');
                 this.occupiedArray = []
                 return false

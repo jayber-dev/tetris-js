@@ -94,7 +94,7 @@ function gameProccess (){
     
     window.addEventListener('keydown', (e) => {
         
-        if(e.code === 'Space'){
+        if(e.code === 'ArrowUp'){
             move.pieceRotation(shapeElement,e)
         }
     })
