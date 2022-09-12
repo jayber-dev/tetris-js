@@ -12,17 +12,17 @@ const lShape = {
                 }
 }
 const lShapeInvert = {
-                    matrix:[[1,0,0],
-                            [1,1,1],
-                            [0,0,0]],
-                    styleProp:{
-                        'position': 'absolute',
-                        'display': 'grid',
-                        'grid-template-columns': 'auto auto auto',
-                        'grid-row': 'auto',
-                        'width': '90px',
-                        'height': '90px'
-                    }
+                        matrix:[[0,0,0],
+                                [1,1,1],
+                                [0,0,1]],
+                        styleProp:{
+                            'position': 'absolute',
+                            'display': 'grid',
+                            'grid-template-columns': 'auto auto auto',
+                            'grid-row': 'auto',
+                            'width': '90px',
+                            'height': '90px'
+                        }
 }
 
 const iShape =  {
@@ -54,17 +54,17 @@ const sShape = {
 }
 
 const sShapeInvert = {
-    matrix:[[1,1,0],
-            [0,1,1],
-            [0,0,0]],
-    styleProp: {
-        'position': 'absolute',
-        'display': 'grid',
-        'grid-template-columns': 'auto auto auto',
-        'grid-row': 'auto',
-        'width': '90px',
-        'height': '90px'
-    }
+                    matrix:[[0,1,1],
+                            [1,1,0],
+                            [0,0,0]],
+                    styleProp: {
+                        'position': 'absolute',
+                        'display': 'grid',
+                        'grid-template-columns': 'auto auto auto',
+                        'grid-row': 'auto',
+                        'width': '90px',
+                        'height': '90px'
+                    }
 }
 const tShape = {
                 matrix:[[0,1,0],

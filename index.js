@@ -26,32 +26,36 @@ for(let i= 0; i< COL * ROW; i++){
 }
 const squereElem = document.querySelectorAll('.empty-squere')
 
-let boardArray =[];
+// let boardArray =[];
 
-for(let i = 0; i < squereElem.length; i += 10) {
-    const tempArr = []
-    for(let j = 0;j < COL; j++){
-        tempArr.push(squereElem[j+i])
-    }
-    boardArray.push(tempArr)
-}
+// for(let i = 0; i < squereElem.length; i += 10) {
+//     const tempArr = []
+//     for(let j = 0;j < COL; j++){
+//         tempArr.push(squereElem[j+i])
+//     }
+//     boardArray.push(tempArr)
+// }
 
-console.table(boardArray);
-document.querySelector('button').addEventListener('click', () => {
+// console.table(boardArray);
+// --------------------------------------- Game starter btn -----------------------------------
+const startGameBtn = document.querySelector('button')
+startGameBtn.addEventListener('click', () => {
     document.querySelector('button').disabled = true
     isGame =true
-    gameProccess()
+    gameProccess() 
+    
 })
-// --------------------------------------- game progress --------------------------------------
+// --------------------------------------- Game progress --------------------------------------
 function gameProccess (){
     let logic = new Logic(shapeElem, -60 ,90);
+    logic.restartGame()
     let move = new movement(shapeElem, logic.boardRow ,logic.boardCol)
     let shapeElement = logic.shapeGenerator();
+    
 
-// game loop -----------------------------
+// Game loop -----------------------------
 
-    const shapeHandler = setInterval(()=> { 
-        // debugger  
+    const shapeHandler = setInterval(()=> {   
         let isCollideBottom = logic.checkCollisionBottom()
         if(isGame){
             if(isCollideBottom){
@@ -61,6 +65,7 @@ function gameProccess (){
                 let stopGame = logic.checkCollisionTop()
                 if(!stopGame) {
                     clearInterval(shapeHandler)
+                    startGameBtn.disabled = false
                 }      
                 logic = new Logic(shapeElem, -60 ,90)
                 move = new movement(shapeElem,logic.boardRow ,logic.boardCol)
@@ -71,6 +76,8 @@ function gameProccess (){
         }
 
     }, 200)
+
+// -------------------------------------- EVENT LISTENERS -------------------------------------
 
     window.addEventListener('keydown', (e) => {
     
@@ -101,6 +108,9 @@ function gameProccess (){
     })
     
     
+    
+
+    
 }
 
 
@@ -108,7 +118,7 @@ function gameProccess (){
 
 
 
-// -------------------------------------- EVENT LISTENERS -------------------------------------
+
 
 
 

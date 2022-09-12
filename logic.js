@@ -49,6 +49,14 @@ class GameLogic {
         return shapeElem
     }
 
+    restartGame(){
+        const shapeElements = document.querySelectorAll('.shape-container')
+        score = 0
+        shapeElements.forEach(element => {
+            element.remove()
+        })
+    }
+
     // ------------------------------- Collision detection ----------------------------------------
     // Current active shape builder //
     collisionDataBuilder(){
@@ -78,106 +86,7 @@ class GameLogic {
         }
     }
 
-    rowRemoval(ArrayToRemove,rowIndex,completeBoardArr){
-        let occupied = document.querySelectorAll('.occupied')
-        occupied.forEach(squereElm => {
-            ArrayToRemove.forEach(emptySquere => {
-                if(squereElm.getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
-                squereElm.getBoundingClientRect().y === emptySquere.getBoundingClientRect().y){
-                    squereElm.classList.remove("shape")
-                    squereElm.classList.remove("occupied")
-                    emptySquere.fixedOnPosition = 0;
-                }
-                 
-            })
-        })   
-        score = score + 1
-        document.querySelector('.score').textContent = `your score is: ${score}`
-        this.moveRowsDown(ArrayToRemove,rowIndex,completeBoardArr)
-    }
-
-    moveRowsDown(rowsToManipulate,rowIndex,completeBoardArr) {
-        let occupied = document.querySelectorAll('.occupied')
-        
-        completeBoardArr.forEach(row => {
-            row.forEach(squere => {
-                occupied.forEach(occupied => {
-                    if(squere.getBoundingClientRect().x === occupied.getBoundingClientRect().x && 
-                        squere.getBoundingClientRect().y === occupied.getBoundingClientRect().y) {
-                            squere.hasOccupied = 1
-                        }
-                })
-            })
-            
-        })
-        for(let i = 0; i< completeBoardArr[rowIndex].length;i++){
-            completeBoardArr[rowIndex][i].remove()
-        }
-        completeBoardArr.splice(rowIndex,1)
-        const emptySqueres = document.querySelectorAll('.empty-squere')
-        const allShapeSqueres = document.querySelectorAll('.squere')
-        completeBoardArr.unshift([])
-        for(let i = 0; i < 10; i++) {      
-            const gameBoard = document.createElement('div')
-            gameBoard.classList.add('empty-squere')
-            gameContainer.insertBefore(gameBoard,emptySqueres[0])
-            completeBoardArr[0].unshift(gameBoard)     
-        }
-
-        completeBoardArr.forEach(row => {
-            row.forEach(squere => {
-                allShapeSqueres.forEach(occupied => {
-                    if(squere.getBoundingClientRect().x === occupied.getBoundingClientRect().x && 
-                    squere.getBoundingClientRect().y === occupied.getBoundingClientRect().y) {
-                        if(squere.hasOccupied === 1) {
-                            occupied.classList = 'squere shape occupied'
-                            occupied.fixedOnPosition = 1
-                        } else {
-                            occupied.classList = 'squere'
-                            occupied.fixedOnPosition = 0
-                        }
-                    }
-                })
-            })
-        })
-       
-    }
-
-    checkCompleteRow(){
-        /* Checks if row is full and needed to be handeled with row removal method 
-        if row is complete invoke a rowRemoval method*/
-        let counter = 0
-        const COL =10
-        let boardArray =[];
-        const squereElem = document.querySelectorAll('.empty-squere')
-
-        for(let i = 0; i < squereElem.length; i += 10) {
-            const tempArr = []
-            for(let j = 0;j < COL; j++){
-                tempArr.push(squereElem[j+i])
-            }
-            boardArray.push(tempArr)
-        }
-        
-        for(let i = 0; i < boardArray.length; i++){
-            if(boardArray[i][0].fixedOnPosition === undefined){
-                counter = 0
-                continue} 
-            for(let j = 0; j < boardArray[i].length;j++){           
-                if(boardArray[i][j].fixedOnPosition === 1){
-                    counter += 1
-                    if(counter === 10) {
-                        
-                        this.rowRemoval(boardArray[i],i,boardArray)
-                    }
-                } else {
-                    counter = 0
-                }
-            }
-            counter = 0
-        }
-        return false
-    }
+    
 
     checkCollisionTop(){
         const occupied = this.collisionDataBuilder();
@@ -319,6 +228,106 @@ class GameLogic {
             } 
         }
         return rotateDirection
+    }
+// ---------------------------------------Row completion handler ------------------------------------------
+    rowRemoval(ArrayToRemove,rowIndex,completeBoardArr){
+        let occupied = document.querySelectorAll('.occupied')
+        occupied.forEach(squereElm => {
+            ArrayToRemove.forEach(emptySquere => {
+                if(squereElm.getBoundingClientRect().x === emptySquere.getBoundingClientRect().x &&
+                squereElm.getBoundingClientRect().y === emptySquere.getBoundingClientRect().y){
+                    squereElm.classList.remove("shape")
+                    squereElm.classList.remove("occupied")
+                    emptySquere.fixedOnPosition = 0;
+                }
+                 
+            })
+        })   
+        score = score + 1
+        document.querySelector('.score').textContent = `your score is: ${score}`
+        this.moveRowsDown(ArrayToRemove,rowIndex,completeBoardArr)
+    }
+
+    moveRowsDown(rowsToManipulate,rowIndex,completeBoardArr) {
+        let occupied = document.querySelectorAll('.occupied')
+        
+        completeBoardArr.forEach(row => {
+            row.forEach(squere => {
+                occupied.forEach(occupied => {
+                    if(squere.getBoundingClientRect().x === occupied.getBoundingClientRect().x && 
+                        squere.getBoundingClientRect().y === occupied.getBoundingClientRect().y) {
+                            squere.hasOccupied = 1
+                        }
+                })
+            })
+            
+        })
+        for(let i = 0; i< completeBoardArr[rowIndex].length;i++){
+            completeBoardArr[rowIndex][i].remove()
+        }
+        completeBoardArr.splice(rowIndex,1)
+        const emptySqueres = document.querySelectorAll('.empty-squere')
+        const allShapeSqueres = document.querySelectorAll('.squere')
+        completeBoardArr.unshift([])
+        for(let i = 0; i < 10; i++) {      
+            const gameBoard = document.createElement('div')
+            gameBoard.classList.add('empty-squere')
+            gameContainer.insertBefore(gameBoard,emptySqueres[0])
+            completeBoardArr[0].unshift(gameBoard)     
+        }
+
+        completeBoardArr.forEach(row => {
+            row.forEach(squere => {
+                allShapeSqueres.forEach(occupied => {
+                    if(squere.getBoundingClientRect().x === occupied.getBoundingClientRect().x && 
+                    squere.getBoundingClientRect().y === occupied.getBoundingClientRect().y) {
+                        if(squere.hasOccupied === 1) {
+                            occupied.classList = 'squere shape occupied'
+                            occupied.fixedOnPosition = 1
+                        } else {
+                            occupied.classList = 'squere'
+                            occupied.fixedOnPosition = 0
+                        }
+                    }
+                })
+            })
+        })
+       
+    }
+
+    checkCompleteRow(){
+        /* Checks if row is full and needed to be handeled with row removal method 
+        if row is complete invoke a rowRemoval method*/
+        let counter = 0
+        const COL =10
+        let boardArray =[];
+        const squereElem = document.querySelectorAll('.empty-squere')
+
+        for(let i = 0; i < squereElem.length; i += 10) {
+            const tempArr = []
+            for(let j = 0;j < COL; j++){
+                tempArr.push(squereElem[j+i])
+            }
+            boardArray.push(tempArr)
+        }       
+        for(let i = 0; i < boardArray.length; i++){
+            if(boardArray[i][0].fixedOnPosition === undefined){
+                counter = 0
+                continue} 
+            for(let j = 0; j < boardArray[i].length;j++){           
+                if(boardArray[i][j].fixedOnPosition === 1){
+                    counter += 1
+                    if(counter === 10) {
+                        
+                        this.rowRemoval(boardArray[i],i,boardArray)
+                    }
+                } else {
+                    counter = 0
+                }
+            }
+            counter = 0
+        }
+        return false
     }
 }
 
