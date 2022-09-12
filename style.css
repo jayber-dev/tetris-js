@@ -51,7 +51,7 @@ body {
 button {
     color: rgb(59, 56, 56);
     font-size: large;
-    font-family: cursive;
+    font-family: monospace;
     background-color: deeppink;
     width: 200px;
     height: 60px;
@@ -65,7 +65,7 @@ button:disabled {
 .score {
     font-size: large;
     color: rgb(59, 56, 56);
-    font-family: cursive;
+    font-family: monospace;
     font-style: oblique;
     text-align: center;
 }
