@@ -16,7 +16,6 @@ class GameLogic {
     shapeGenerator (){       
         let squereElem = ''
         let randomPicker = Math.floor(Math.random() * (5 - 0) + 0);
-        console.log(randomPicker);
         const shpesArray = [lShape,tShape,sShape,iShape,sShapeInvert,lShapeInvert] // randomized the shape generationg
         const shapeElem = document.createElement('div')
         shapeElem.classList = 'shape-container'
@@ -91,9 +90,8 @@ class GameLogic {
     checkCollisionTop(){
         const occupied = this.collisionDataBuilder();
         for(let i = 0; i < occupied.length; i++) {
-            console.log(occupied[i].getBoundingClientRect().top);
             if(occupied[i].getBoundingClientRect().top < gameContainer.getBoundingClientRect().top){
-                console.log('stop the game');
+                
                 this.occupiedArray = []
                 return false
             } else {
@@ -220,11 +218,11 @@ class GameLogic {
             if(occupied[i].getBoundingClientRect().right > gameContainer.getBoundingClientRect().right){
                 rotateDirection.direction = 'left'
                 rotateDirection.invokeCounter.push('call') 
-                console.log('wow');
+               
             }else if(occupied[i].getBoundingClientRect().left < gameContainer.getBoundingClientRect().left){
                 rotateDirection.direction  = 'right'
                 rotateDirection.invokeCounter.push('call') 
-                console.log('nana');
+              
             } 
         }
         return rotateDirection

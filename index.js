@@ -63,9 +63,7 @@ function gameProccess (){
                 move = new movement(shapeElem,logic.boardRow ,logic.boardCol)
                 shapeElement = logic.shapeGenerator()
             } 
-        } else {
-            console.log('game terminated');
-        }
+        } 
 
     }, 200)
 

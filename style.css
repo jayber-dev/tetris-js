@@ -129,8 +129,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top:100%;
-       
+        top:100%;    
         right: 20%;
     }
 
@@ -141,7 +140,6 @@ p {
         top:100%;
         transform: translateX(-50%);
         left: 50%;
-
     }
 }
 
