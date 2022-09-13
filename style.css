@@ -2,6 +2,7 @@ body {
     background-image: url('./assets/images/puzzle-3223941_1920.jpg');
     background-position: center;
     background-attachment: fixed;
+    touch-action: none;
     
 }
 
@@ -119,6 +120,8 @@ p {
     }
 
     .arrow-container .move-left {
+       
+        
         position: absolute;
         height:50px ;
         width:50px ;
@@ -127,6 +130,7 @@ p {
     }
 
     .arrow-container .move-right {
+       
         position: absolute;
         height:50px ;
         width:50px ;
@@ -135,6 +139,7 @@ p {
     }
 
     .arrow-container .rotate-piece {
+        
         position: absolute;
         height:50px ;
         width:50px ;
