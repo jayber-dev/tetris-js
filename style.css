@@ -19,8 +19,8 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;    
-    width: 320px ;
-    height: 640px;
+    width: 300px ;
+    height: 600px;
     /* border: 1px solid black; */
     background-image: linear-gradient(to left top, rgba(89, 89, 209, 0.650), rgba(218, 72, 72, 0.650));
     box-shadow: 0 0 2px 2px black;
@@ -122,7 +122,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top:755px;      
+        top:760px;      
         left: 20%;
     }
 
@@ -130,7 +130,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top:755px;    
+        top:760px;    
         right: 20%;
     }
 
@@ -138,7 +138,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top: 755px;
+        top: 760px;
         transform: translateX(-50%);
         left: 50%;
     }
