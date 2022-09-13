@@ -99,7 +99,7 @@ function gameProccess (){
         }
     })
     
-    
+    window.addEventListener('touchstart', (e) =>{})
     
 
     
