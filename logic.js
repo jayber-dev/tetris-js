@@ -108,7 +108,7 @@ class GameLogic {
         const occupied = this.collisionDataBuilder()
         
         for(let i=0; i< occupied.length; i++){
-            if(occupied[i].getBoundingClientRect().top === gameContainer.getBoundingClientRect().top-30){
+            if(occupied[i].getBoundingClientRect().bottom === gameContainer.getBoundingClientRect().bottom){
                 staticElem.forEach(element => {
                     element.fixedOnPosition = 1
                     
