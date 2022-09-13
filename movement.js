@@ -18,18 +18,18 @@ class movement extends GameLogic {
         
     }
 
-    rightMove (shapeElement,e) {  
+    rightMove (shapeElement,e,direction) {  
          
-        if(this.checkCollisionBorders(shapeElement,e)&& this.rightCheckShapeSideCollision()) {
+        if(this.checkCollisionBorders(shapeElement,e,direction)&& this.rightCheckShapeSideCollision()) {
             this.boardCol += 30
             shapeElement.style.left = this.boardCol +'px' 
         }
                        
     }
     
-    leftMove(shapeElement,e) {
+    leftMove(shapeElement,e,direction) {
            
-        if(this.checkCollisionBorders(shapeElement,e) && this.leftCheckShapeSideCollision()){ 
+        if(this.checkCollisionBorders(shapeElement,e,direction) && this.leftCheckShapeSideCollision()){ 
                 this.boardCol -= 30
                 shapeElement.style.left = this.boardCol +'px'        
                      

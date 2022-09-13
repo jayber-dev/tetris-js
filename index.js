@@ -99,7 +99,19 @@ function gameProccess (){
         }
     })
     
-    window.addEventListener('touchstart', (e) =>{})
+    const leftBtn = document.querySelector('.move-left')
+    leftBtn.addEventListener('click', (e) => {
+        const direction = 'left'
+        move.leftMove(shapeElement,e,direction)
+    })
+    document.querySelector('.move-right').addEventListener('click', (e) => {
+        const direction = 'right'
+        move.rightMove(shapeElement,e,direction)
+    })
+    document.querySelector('.rotate-piece').addEventListener('click', (e) => {
+        move.pieceRotation(shapeElement,e)
+    })
+    
     
 
     

@@ -139,14 +139,14 @@ class GameLogic {
     }
     // ----------------------------------- Side border collison check ------------------------------------------------
 
-    checkCollisionBorders (shapeElement,e) {
+    checkCollisionBorders (shapeElement,e,direction) {
         // const shapeContainer = document.querySelectorAll('.shape-container') // All shapes on board
         let isNotOutOfBound = true; 
         
         const occupied = this.collisionDataBuilder()
         
         for(let i = 0; i < occupied.length; i++){
-            if(e.code === 'ArrowLeft') {
+            if(e.code === 'ArrowLeft' || direction === 'left') {
                 if(occupied[i].getBoundingClientRect().left > gameContainer.getBoundingClientRect().left){ 
                     isNotOutOfBound = true;
                 } else {
@@ -154,7 +154,7 @@ class GameLogic {
                     this.occupiedArray = []
                     break
                 }
-            } else if(e.code === 'ArrowRight'){
+            } else if(e.code === 'ArrowRight' || direction === 'right'){
                 if(occupied[i].getBoundingClientRect().right < gameContainer.getBoundingClientRect().right){ 
                     isNotOutOfBound = true;
                 } else {

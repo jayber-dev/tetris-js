@@ -4,6 +4,11 @@ body {
     background-attachment: fixed;
     
 }
+
+.game-wrapper {
+    display: block;
+
+}
 .game-container {
     overflow: hidden;
     position: absolute;
@@ -86,6 +91,10 @@ p {
     text-align: center;
 }
 
+.arrow-container {
+    display: none;
+}
+
 @media screen and (max-width: 600px){
     .game-container {
         overflow: hidden;
@@ -103,6 +112,37 @@ p {
         box-shadow: 0 0 2px 2px black;
         /* transform: skewX(10deg); */
        
+    }
+    .arrow-container{
+        display: block;
+    }
+
+    .arrow-container .move-left {
+        position: absolute;
+        height:50px ;
+        width:50px ;
+        bottom: 1%;
+        
+        left: 20%;
+    }
+
+    .arrow-container .move-right {
+        position: absolute;
+        height:50px ;
+        width:50px ;
+        bottom: 1%;
+       
+        right: 20%;
+    }
+
+    .arrow-container .rotate-piece {
+        position: absolute;
+        height:50px ;
+        width:50px ;
+        bottom: 1%;
+        transform: translateX(-50%);
+        left: 50%;
+
     }
 }
 
