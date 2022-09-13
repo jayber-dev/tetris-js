@@ -122,7 +122,7 @@ class GameLogic {
             // Comparing moving squeres to all other squers on board to see if the element collide with other element
             for(let j = 0; j < (staticElem.length) - (occupied.length); j++) {   
                 console.log(staticElem[j].clientTop)
-                if(occupied[i].getBoundingClientRect().bottom === staticElem[j].getBoundingClientRect().top && 
+                if(occupied[i].getBoundingClientRect().top === staticElem[j].getBoundingClientRect().top-30 && 
                     occupied[i].getBoundingClientRect().left === staticElem[j].getBoundingClientRect().left) {  
                     staticElem.forEach(element => {
                         element.fixedOnPosition = 1
