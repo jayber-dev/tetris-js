@@ -86,6 +86,26 @@ p {
     text-align: center;
 }
 
+@media screen and (max-width: 600px){
+    .game-container {
+        overflow: hidden;
+        position: absolute;
+        justify-content: center;
+        top:150px;
+        
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;    
+        width: 320px ;
+        height: 640px;
+        /* border: 1px solid black; */
+        background-image: linear-gradient(to left top, rgba(89, 89, 209, 0.650), rgba(218, 72, 72, 0.650));
+        box-shadow: 0 0 2px 2px black;
+        /* transform: skewX(10deg); */
+       
+    }
+}
+
 
 
 
