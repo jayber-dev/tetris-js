@@ -2,7 +2,7 @@ body {
     background-image: url('./assets/images/puzzle-3223941_1920.jpg');
     background-position: center;
     background-attachment: fixed;
-    touch-action: none;
+    touch-action: manipulation;
     
 }
 
