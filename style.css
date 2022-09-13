@@ -2,12 +2,13 @@ body {
     background-image: url('./puzzle-3223941_1920.jpg');
     background-position: center;
     background-attachment: fixed;
+    
 }
 .game-container {
     overflow: hidden;
     position: absolute;
     justify-content: center;
-    top:100px;
+    top:150px;
     left: 50%;
     transform: translate(-50%);
     display: flex;
@@ -70,12 +71,19 @@ button:disabled {
     text-align: center;
 }
 
-h1 {
+h1{
     position: absolute;
     top: 40%;
     transform: translateY(-50%) skewY(-10deg);
     display: none;
     z-index: 1;
+}
+
+p {
+    color: rgb(59, 56, 56) ;
+    font-family: monospace;
+    font-style: oblique;
+    text-align: center;
 }
 
 
