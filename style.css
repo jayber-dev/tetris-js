@@ -122,7 +122,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top:110%;      
+        top:100%;      
         left: 20%;
     }
 
@@ -130,7 +130,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top:110%;    
+        top:100%;    
         right: 20%;
     }
 
@@ -138,7 +138,7 @@ p {
         position: absolute;
         height:50px ;
         width:50px ;
-        top:110%;
+        top:100%;
         transform: translateX(-50%);
         left: 50%;
     }
